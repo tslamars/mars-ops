@@ -43,7 +43,7 @@ spec:
       nodeSelector:
         longhorn.io/managed: "true"
       securityContext:
-        privileged: true  # Ensure privileged mode
+        privileged: true
       volumeMounts:
         - mountPath: "/dev"
           name: host-dev
