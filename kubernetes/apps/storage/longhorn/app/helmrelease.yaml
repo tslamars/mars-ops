@@ -34,7 +34,8 @@ spec:
       nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
       concurrentAutomaticEngineUpgradePerNodeLimit: 3
       orphanAutoDeletion: true
-      # Enable SPDK for block device support
+      # Enable V2 data engine and SPDK for block device support
+      dataEngine: v2
       enableSPDK: true
     persistence:
       defaultClass: true
