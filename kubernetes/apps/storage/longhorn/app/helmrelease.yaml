@@ -4,7 +4,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: longhorn
-  namespace: longhorn-system  # Ensure this matches your intended namespace
+  namespace: longhorn-system
 spec:
   interval: 30m
   chart:
@@ -25,8 +25,7 @@ spec:
       retries: 3
   values:
     defaultSettings:
-      # Prevent Longhorn from using /var/lib/longhorn on unlabeled nodes
-      createDefaultDiskLabeledNodes: false
+      createDefaultDiskLabeledNodes: false  # Only use annotated disks
       defaultDataLocality: true
       replicaAutoBalance: true
       storageMinimalAvailablePercentage: 1
@@ -38,12 +37,11 @@ spec:
     persistence:
       defaultClass: true
       defaultClassReplicaCount: 1
-      # Optional: Restrict to labeled nodes (if needed)
       defaultNodeSelector:
-        longhorn.io/managed: "true"  # Matches nodes labeled with longhorn.io/managed=true
+        longhorn.io/managed: "true"  # Restrict to labeled nodes
     longhornManager:
       nodeSelector:
-        longhorn.io/managed: "true"  # Ensures managers run on these nodes
+        longhorn.io/managed: "true"  # Ensure managers run on workers
     ingress:
       enabled: true
       ingressClassName: internal
