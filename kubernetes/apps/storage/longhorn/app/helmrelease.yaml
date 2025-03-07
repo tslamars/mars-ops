@@ -25,7 +25,7 @@ spec:
       retries: 3
   values:
     defaultSettings:
-      createDefaultDiskLabeledNodes: false  # Only use annotated disks
+      createDefaultDiskLabeledNodes: false
       defaultDataLocality: true
       replicaAutoBalance: true
       storageMinimalAvailablePercentage: 1
@@ -38,10 +38,20 @@ spec:
       defaultClass: true
       defaultClassReplicaCount: 1
       defaultNodeSelector:
-        longhorn.io/managed: "true"  # Restrict to labeled nodes
+        longhorn.io/managed: "true"
     longhornManager:
       nodeSelector:
-        longhorn.io/managed: "true"  # Ensure managers run on workers
+        longhorn.io/managed: "true"
+      securityContext:
+        privileged: true  # Ensure privileged mode
+      volumeMounts:
+        - mountPath: "/dev"
+          name: host-dev
+      volumes:
+        - name: host-dev
+          hostPath:
+            path: "/dev"
+            type: Directory
     ingress:
       enabled: true
       ingressClassName: internal
