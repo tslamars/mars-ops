@@ -1,0 +1,60 @@
+nodes:
+  - name: talos-marsmaster-00
+    address: 10.10.5.170
+    controller: true
+    disk: /dev/sda
+    mac_addr: 76:99:6a:8f:ec:e0
+    schematic_id: 88d1f7a5c4f1d3aba7df787c448c1d3d008ed29cfb34af53fa0df4336a56040b
+    mtu: 1500
+    secureboot: false
+    encrypt_disk: false
+
+  - name: talos-marsmaster-01
+    address: 10.10.5.171
+    controller: true
+    disk: /dev/sda
+    mac_addr: c6:a4:41:b1:e3:ac
+    schematic_id: 88d1f7a5c4f1d3aba7df787c448c1d3d008ed29cfb34af53fa0df4336a56040b
+    mtu: 1500
+    secureboot: false
+    encrypt_disk: false
+
+  - name: talos-marsmaster-02
+    address: 10.10.5.172
+    controller: true
+    disk: /dev/sda
+    mac_addr: 8e:31:03:44:c8:cf
+    schematic_id: 88d1f7a5c4f1d3aba7df787c448c1d3d008ed29cfb34af53fa0df4336a56040b
+    mtu: 1500
+    secureboot: false
+    encrypt_disk: false
+
+  - name: talos-marsworker-00
+    address: 10.10.5.180
+    controller: false
+    disk: /dev/sda
+    mac_addr: 92:08:c3:4b:ac:ac
+    schematic_id: 88d1f7a5c4f1d3aba7df787c448c1d3d008ed29cfb34af53fa0df4336a56040b
+    mtu: 1500
+    secureboot: false
+    encrypt_disk: false
+
+  - name: talos-marsworker-01
+    address: 10.10.5.181
+    controller: false
+    disk: /dev/sda
+    mac_addr: ca:e1:c3:e4:1f:64
+    schematic_id: 88d1f7a5c4f1d3aba7df787c448c1d3d008ed29cfb34af53fa0df4336a56040b
+    mtu: 1500
+    secureboot: false
+    encrypt_disk: false
+
+  - name: talos-marsworker-02
+    address: 10.10.5.182
+    controller: false
+    disk: /dev/sda
+    mac_addr: f6:1b:ab:40:2c:47
+    schematic_id: 88d1f7a5c4f1d3aba7df787c448c1d3d008ed29cfb34af53fa0df4336a56040b
+    mtu: 1500
+    secureboot: false
+    encrypt_disk: false
