@@ -2,8 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: cilium
+  name: stakater
   namespace: flux-system
 spec:
-  interval: 2h
-  url: https://helm.cilium.io
+  type: oci
+  interval: 5m
+  url: oci://ghcr.io/stakater/charts
