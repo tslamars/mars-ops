@@ -12,20 +12,20 @@ Using my other [talos-k8s-iac](https://github.com/tslamars/talos-k8s-iac) templa
 - Kubelet section:
 ```
 extraMounts:
-      - destination: /var/lib/longhorn
-        type: bind
-        source: /var/lib/longhorn
-        options:
-          - bind
-          - rshared
-          - rw
+  - destination: /var/lib/longhorn
+    type: bind
+    source: /var/lib/longhorn
+    options:
+      - bind
+      - rshared
+      - rw
 ```
 - Machine, Disks section:
 ```
 disks:
-    - device: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1
-      partitions:
-        - mountpoint: /var/lib/longhorn
+  - device: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1
+    partitions:
+      - mountpoint: /var/lib/longhorn
 ```
 
 - Apply the configs to the workers
