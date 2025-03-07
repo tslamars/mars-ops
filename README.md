@@ -20,12 +20,19 @@ extraMounts:
           - rshared
           - rw
 ```
-- Disks section:
+- Machine, Disks section:
 ```
 disks:
     - device: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1
       partitions:
         - mountpoint: /var/lib/longhorn
+```
+
+- Apply the configs to the workers
+```
+talosctl apply-config -n 10.10.5.180 --file talos/clusterconfig/kubernetes-talos-marsworker-00.yaml
+talosctl apply-config -n 10.10.5.181 --file talos/clusterconfig/kubernetes-talos-marsworker-01.yaml
+talosctl apply-config -n 10.10.5.182 --file talos/clusterconfig/kubernetes-talos-marsworker-02.yaml
 ```
 
 # ⛵ Cluster Template
