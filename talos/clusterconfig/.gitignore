@@ -1,0 +1,7 @@
+kubernetes-talos-marsmaster-00.yaml
+kubernetes-talos-marsmaster-01.yaml
+kubernetes-talos-marsmaster-02.yaml
+kubernetes-talos-marsworker-00.yaml
+kubernetes-talos-marsworker-01.yaml
+kubernetes-talos-marsworker-02.yaml
+talosconfig
