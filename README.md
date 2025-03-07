@@ -1,9 +1,31 @@
 # Working notes
 
-- After bootstrap, apply the onepassword secret store
+- After task bootstrap:talos, apply the onepassword secret store (this is hidden by .gitignore)
 ```
 kubectl create namespace external-secrets
 kubectl apply -f ./kubernetes/apps/external-secrets/onepassword/app/onepassword-secret.yaml
+```
+
+## Longhorn specific config for Proxmox
+Using my other [talos-k8s-iac](https://github.com/tslamars/talos-k8s-iac) template to provision Talos with a dedicated disk for Longhorn storage, the following needs to be added to the generated machine configs:
+
+- Kubelet section:
+```
+extraMounts:
+      - destination: /var/lib/longhorn
+        type: bind
+        source: /var/lib/longhorn
+        options:
+          - bind
+          - rshared
+          - rw
+```
+- Disks section:
+```
+disks:
+    - device: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1
+      partitions:
+        - mountpoint: /var/lib/longhorn
 ```
 
 # ⛵ Cluster Template
