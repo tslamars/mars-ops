@@ -4,7 +4,6 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: longhorn
-  namespace: storage
 spec:
   interval: 30m
   chart:
@@ -24,9 +23,15 @@ spec:
       strategy: rollback
       retries: 3
   values:
+    # csi:
+      # attacherReplicaCount: &replicas 1
+      # provisionerReplicaCount: *replicas
+      # resizerReplicaCount: *replicas
+      # snapshotterReplicaCount: *replicas
+    # persistence:
+    #   defaultClassReplicaCount: 1
     defaultSettings:
-      createDefaultDiskLabeledNodes: false
-      defaultDataPath: /dev/sdb
+      # createDefaultDiskLabeledNodes: true
       defaultDataLocality: true
       replicaAutoBalance: true
       storageMinimalAvailablePercentage: 1
@@ -35,27 +40,8 @@ spec:
       nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
       concurrentAutomaticEngineUpgradePerNodeLimit: 3
       orphanAutoDeletion: true
-      # Enable V2 data engine and SPDK for block device support
-      dataEngine: v2
-      enableSPDK: true
-    persistence:
-      defaultClass: true
-      defaultClassReplicaCount: 1
-      defaultNodeSelector:
-        longhorn.io/managed: "true"
-    longhornManager:
-      nodeSelector:
-        longhorn.io/managed: "true"
-      securityContext:
-        privileged: true
-      volumeMounts:
-        - mountPath: "/dev"
-          name: host-dev
-      volumes:
-        - name: host-dev
-          hostPath:
-            path: "/dev"
-            type: Directory
+    # longhornUI:
+    #   replicas: *replicas
     ingress:
       enabled: true
       ingressClassName: internal
