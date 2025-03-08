@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -16,10 +16,12 @@ spec:
   upgrade:
     cleanupOnFail: true
     remediation:
+      strategy: rollback
       retries: 3
   values:
     controllers:
       cloudflared:
+        replicas: 2
         strategy: RollingUpdate
         annotations:
           reloader.stakater.com/auto: "true"
@@ -27,7 +29,7 @@ spec:
           app:
             image:
               repository: docker.io/cloudflare/cloudflared
-              tag: 2025.2.1
+              tag: 2025.2.1@sha256:03737f27c38ecfb257a55664953cac510727cf27052c51ddb7c8ff1a2b9969e1
             env:
               NO_AUTOUPDATE: true
               TUNNEL_CRED_FILE: /etc/cloudflared/creds/credentials.json
@@ -35,13 +37,12 @@ spec:
               TUNNEL_ORIGIN_ENABLE_HTTP2: true
               TUNNEL_TRANSPORT_PROTOCOL: quic
               TUNNEL_POST_QUANTUM: true
-              TUNNEL_ID: "629f382e-773f-4715-8042-2340e2439f82"
             args:
               - tunnel
               - --config
               - /etc/cloudflared/config/config.yaml
               - run
-              - "$(TUNNEL_ID)"
+              - 629f382e-773f-4715-8042-2340e2439f82
             probes:
               liveness: &probes
                 enabled: true
@@ -67,9 +68,8 @@ spec:
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
-        runAsUser: 65534
-        runAsGroup: 65534
-        seccompProfile: { type: RuntimeDefault }
+        runAsUser: 1000
+        runAsGroup: 1000
     service:
       app:
         controller: cloudflared
@@ -81,21 +81,17 @@ spec:
         serviceName: cloudflared
         endpoints:
           - port: http
-            scheme: http
-            path: /metrics
-            interval: 1m
-            scrapeTimeout: 10s
     persistence:
-      config:
+      config-file:
         type: configMap
         name: cloudflared-configmap
         globalMounts:
           - path: /etc/cloudflared/config/config.yaml
             subPath: config.yaml
             readOnly: true
-      creds:
+      secret-file:
         type: secret
-        name: cloudflared-secret
+        name: cloudflared-tunnel-secret
         globalMounts:
           - path: /etc/cloudflared/creds/credentials.json
             subPath: credentials.json

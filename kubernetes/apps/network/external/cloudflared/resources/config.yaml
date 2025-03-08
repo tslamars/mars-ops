@@ -1,14 +1,10 @@
 ---
 originRequest:
-  originServerName: "external.${SECRET_DOMAIN}"
+  originServerName: external.tslamars.com
 
 ingress:
-  - hostname: "${SECRET_DOMAIN}"
+  - hostname: tslamars.com
     service: https://external-ingress-nginx-controller.network.svc.cluster.local:443
-    originRequest:
-      noTLSVerify: true
-  - hostname: "*.${SECRET_DOMAIN}"
+  - hostname: "*.tslamars.com"
     service: https://external-ingress-nginx-controller.network.svc.cluster.local:443
-    originRequest:
-      noTLSVerify: true
   - service: http_status:404
