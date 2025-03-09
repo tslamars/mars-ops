@@ -4,6 +4,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: gatus
+  namespace: observability
 spec:
   interval: 1h
   chartRef:
@@ -111,6 +112,6 @@ spec:
         type: configMap
         name: gatus-configmap
         globalMounts:
-          - path: /resources/config.yaml
+          - path: /config/config.yaml
             subPath: config.yaml
             readOnly: true
