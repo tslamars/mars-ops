@@ -28,17 +28,17 @@ spec:
           - name: ADGUARD_URL
             valueFrom:
               secretKeyRef:
-                name: &secret internal-external-dns-secret
+                name: &secret adguard-home-secrets
                 key: ADGUARD_URL
           - name: ADGUARD_USER
             valueFrom:
               secretKeyRef:
-                name: &secret internal-external-dns-secret
+                name: &secret adguard-home-secrets
                 key: ADGUARD_USER
           - name: ADGUARD_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: &secret internal-external-dns-secret
+                name: &secret adguard-home-secrets
                 key: ADGUARD_PASSWORD
           - name: DRY_RUN
             value: "false"
