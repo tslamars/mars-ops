@@ -55,7 +55,7 @@ spec:
         controller: adguard
         type: LoadBalancer
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: dns.${SECRET_DOMAIN}
+          external-dns.alpha.kubernetes.io/hostname: dns.tslamars.com
           io.cilium/lb-ipam-ips: 10.10.5.250
         ports:
           dns-https:
@@ -74,7 +74,7 @@ spec:
       app:
         className: internal
         hosts:
-          - host: &host "adguard.${SECRET_DOMAIN}"
+          - host: &host "adguard.tslamars.com"
             paths:
               - path: /
                 service:

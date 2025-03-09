@@ -8,9 +8,9 @@ spec:
   issuerRef:
     name: letsencrypt-production
     kind: ClusterIssuer
-  commonName: dns.${SECRET_DOMAIN}
+  commonName: dns.tslamars.com
   dnsNames:
-    - dns.${SECRET_DOMAIN}
-    - adguard.${SECRET_DOMAIN}
+    - dns.tslamars.com
+    - adguard.tslamars.com
   privateKey:
     rotationPolicy: Always
