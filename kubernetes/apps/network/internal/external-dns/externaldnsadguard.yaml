@@ -29,9 +29,8 @@ spec:
       name: webhook
       webhook:
         image:
-          repository: nginx  # Lightweight proxy as a placeholder
-          tag: "1.25.5"    # Stable version
-        # Minimal config since AdGuard is the real provider via sidecar
+          repository: bitnami/nginx
+          tag: "1.25.5"
     extraArgs:
       - --webhook-provider-url=http://localhost:8888
       - --ignore-ingress-tls-spec
