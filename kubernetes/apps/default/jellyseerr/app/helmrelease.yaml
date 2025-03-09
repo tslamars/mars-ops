@@ -72,7 +72,7 @@ spec:
             port: *port
     ingress:
       app:
-        className: external
+        className: internal
         hosts:
           - host: requests.tslamars.com
             paths:
