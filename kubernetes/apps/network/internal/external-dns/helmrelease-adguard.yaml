@@ -42,8 +42,8 @@ spec:
                 key: ADGUARD_PASSWORD
           - name: DRY_RUN
             value: "false"
-          securityContext:
-            readOnlyRootFilesystem: true
+        securityContext:  # Moved out of env list
+          readOnlyRootFilesystem: true
         livenessProbe:
           httpGet:
             path: /healthz
@@ -58,7 +58,7 @@ spec:
           timeoutSeconds: 5
     extraArgs:
       - --ignore-ingress-tls-spec
-      - --webhook-provider-url=http://localhost:8888  # Merged duplicate extraArgs
+      - --webhook-provider-url=http://localhost:8888
     triggerLoopOnEvent: true
     policy: sync
     sources: ["ingress", "service"]
