@@ -111,6 +111,6 @@ spec:
         type: configMap
         name: gatus-configmap
         globalMounts:
-          - path: /config/config.yaml
+          - path: /resources/config.yaml
             subPath: config.yaml
             readOnly: true
