@@ -55,6 +55,7 @@ spec:
           timeoutSeconds: 5
     extraArgs:
       - --ignore-ingress-tls-spec
+      - --webhook-provider-url=http://localhost:8888
     triggerLoopOnEvent: true
     policy: sync
     sources: ["ingress", "service"]
@@ -94,16 +95,16 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: &secret internal-external-dns-secret
-                key: url
+                key: ADGUARD_URL
           - name: ADGUARD_USER
             valueFrom:
               secretKeyRef:
                 name: &secret internal-external-dns-secret
-                key: user
+                key: ADGUARD_USER
           - name: ADGUARD_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: &secret internal-external-dns-secret
-                key: password
+                key: ADGUARD_PASSWORD
           - name: DRY_RUN
             value: "false"
