@@ -1,5 +1,5 @@
 # Working notes
-asd
+
 - After task bootstrap:talos, apply the onepassword secret store (this is hidden by .gitignore)
 ```
 kubectl create namespace external-secrets
