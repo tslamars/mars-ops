@@ -68,8 +68,8 @@ spec:
     sidecars:
       - name: adguard-webhook
         image: 
-          repository: ghcr.io/muhlba91/external-dns-provider-adguard
-          tag: v0.2.2  # Replace $RELEASE_VERSION with a specific version
+          repository: ghcr.io/muhlba91/external-dns-provider-adguard:v8.0.0
+          #tag: v0.2.2  # Replace $RELEASE_VERSION with a specific version
         ports:
           - containerPort: 8888
             name: http
