@@ -65,8 +65,8 @@ spec:
           namespaceSelector:
             any: true
       extraArgs:
-        #default-ssl-certificate: cert-manager/devbu-io-tls
-        default-ssl-certificate: cert-manager/tslamars-com-staging-tls
+        default-ssl-certificate: cert-manager/tslamars-com-tls
+        #default-ssl-certificate: cert-manager/tslamars-com-staging-tls
         publish-status-address: *hostname
       terminationGracePeriodSeconds: 120
       publishService:
