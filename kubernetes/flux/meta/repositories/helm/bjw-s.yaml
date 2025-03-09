@@ -2,9 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: bitnami
+  name: bjw-s
   namespace: flux-system
 spec:
   type: oci
   interval: 5m
-  url: oci://registry-1.docker.io/bitnamicharts
+  url: oci://ghcr.io/bjw-s/helm
