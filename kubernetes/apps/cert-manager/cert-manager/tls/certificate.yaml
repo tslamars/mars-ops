@@ -12,5 +12,5 @@ spec:
     name: letsencrypt-production
     #name: letsencrypt-staging
     kind: ClusterIssuer
-  commonName: "${SECRET_DOMAIN}"
+  commonName: "tslamars.com"
   dnsNames: ["tslamars.com", "*.tslamars.com"]
