@@ -101,7 +101,7 @@ spec:
       tls:
         enabled: true
         type: secret
-        name: tslamars-com-tls
+        name: tls-adguard
         globalMounts:
           - path: /opt/adguardhome/ssl/certs/
             readOnly: true
