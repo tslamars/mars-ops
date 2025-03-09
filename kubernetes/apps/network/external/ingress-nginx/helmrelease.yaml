@@ -65,8 +65,7 @@ spec:
           namespaceSelector:
             any: true
       extraArgs:
-        #default-ssl-certificate: cert-manager/tslamars-com-staging-tls
-        default-ssl-certificate: cert-manager/tslamars-com-staging
+        default-ssl-certificate: cert-manager/tslamars-com-staging-tls
         publish-status-address: *hostname
       terminationGracePeriodSeconds: 120
       publishService:
