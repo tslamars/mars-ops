@@ -5,3 +5,19 @@ metadata:
   namespace: adguard-home
   annotations:
     reflector.v1.k8s.emberstack.com/reflects: cert-manager/tslamars-com-tls
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sops-age
+  namespace: adguard-home
+  annotations:
+    reflector.v1.k8s.emberstack.com/reflects: flux-system/sops-age
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sops-age
+  namespace: adguard-home
+  annotations:
+    reflector.v1.k8s.emberstack.com/reflects: flux-system/sops-age
