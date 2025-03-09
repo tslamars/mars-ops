@@ -52,6 +52,8 @@ spec:
         ports:
           http:
             port: 80
+          http:
+            port: 3000
       dns:
         controller: adguard
         type: LoadBalancer
