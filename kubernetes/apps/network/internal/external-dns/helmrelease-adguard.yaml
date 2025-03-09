@@ -46,7 +46,7 @@ spec:
             value: "false" 
           securityContext:
             readOnlyRootFilesystem: true
-                    livenessProbe:
+        livenessProbe:
           httpGet:
             path: /healthz
             port: http-webhook
