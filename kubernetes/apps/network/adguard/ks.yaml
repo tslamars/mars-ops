@@ -11,7 +11,7 @@ spec:
     - name: onepassword
       namespace: external-secrets
     - name: longhorn
-      namespace: flux-system
+      namespace: storage
   path: ./kubernetes/apps/network/adguard/app
   prune: true
   sourceRef:
