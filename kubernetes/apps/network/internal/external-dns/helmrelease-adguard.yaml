@@ -1,0 +1,75 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: adguard-home-external-dns
+  namespace: adguard-home
+spec:
+  interval: 1h
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: external-dns
+      version: 1.15.2
+      sourceRef:
+        kind: HelmRepository
+        namespace: flux-system
+        name: external-dns
+      interval: 1h
+  values:
+    provider:
+      name: webhook
+      webhook:
+        image:
+          repository: ghcr.io/muhlba91/external-dns-provider-adguard
+          tag: v8.0.0@sha256:1a7b12b3fef352626345653809716ada3d7569c930b1bf85c2e1b98e022ca9aa
+          pullPolicy: IfNotPresent
+        env:
+            valueFrom:
+              secretKeyRef:
+              - name: ADGUARD_URL
+            valueFrom:
+              secretKeyRef:
+                name: &secret internal-external-dns-secret
+                key: ADGUARD_URL
+          - name: ADGUARD_USER
+            valueFrom:
+              secretKeyRef:
+                name: &secret internal-external-dns-secret
+                key: ADGUARD_USER
+          - name: ADGUARD_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: &secret internal-external-dns-secret
+                key: ADGUARD_PASSWORD
+          - name: DRY_RUN
+            value: "false" 
+          securityContext:
+            readOnlyRootFilesystem: true
+                    livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http-webhook
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: http-webhook
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+    extraArgs:
+      - --ignore-ingress-tls-spec
+    triggerLoopOnEvent: true
+    policy: sync
+    sources: ["ingress", "service"]
+    txtOwnerId: main
+    txtPrefix: k8s.main.
+    domainFilters: ["tslamars.com"]
+    serviceMonitor:
+      enabled: true
+    podAnnotations:
+      secret.reloader.stakater.com/reload: *secret
+
+    extraArgs:
+      - --webhook-provider-url=http://localhost:8888
