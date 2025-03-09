@@ -65,3 +65,45 @@ spec:
       enabled: true
     podAnnotations:
       secret.reloader.stakater.com/reload: *secret
+    sidecars:
+      - name: adguard-webhook
+        image: 
+          repository: ghcr.io/muhlba91/external-dns-provider-adguard
+          tag: v0.2.2  # Replace $RELEASE_VERSION with a specific version
+        ports:
+          - containerPort: 8888
+            name: http
+          - containerPort: 8080
+            name: healthz
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: healthz
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: healthz
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+        env:
+          - name: LOG_LEVEL
+            value: debug
+          - name: ADGUARD_URL
+            valueFrom:
+              secretKeyRef:
+                name: &secret internal-external-dns-secret
+                key: url
+          - name: ADGUARD_USER
+            valueFrom:
+              secretKeyRef:
+                name: &secret internal-external-dns-secret
+                key: user
+          - name: ADGUARD_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: &secret internal-external-dns-secret
+                key: password
+          - name: DRY_RUN
+            value: "false"
