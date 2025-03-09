@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
 #  - ./actions-runner-controller.yaml
   - ./backube.yaml
+  - ./bitnami.yaml
   - ./cilium.yaml
   - ./csi-driver-nfs.yaml
   - ./descheduler.yaml
