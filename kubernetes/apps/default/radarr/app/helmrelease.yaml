@@ -104,7 +104,7 @@ spec:
       media:
         type: nfs
         server: 10.69.70.10
-        path: /media/media/movies
+        path: /volume1/.srv/.unifi-drive/media/.data
         globalMounts:
           - path: /media
       tmp:
