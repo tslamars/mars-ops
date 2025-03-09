@@ -18,7 +18,7 @@ spec:
     - name: onepassword
       namespace: external-secrets
     - name: longhorn
-      namespace: kube-system
+      namespace: storage
   interval: 1h
   path: ./kubernetes/apps/default/home-assistant/app
   postBuild:
