@@ -42,8 +42,26 @@ spec:
               liveness: &probe
                 type: HTTP
                 path: /login.html
+                port: 80  # Match primary HTTP port
               readiness: *probe
               startup: *probe
+            ports:  # Explicitly define container ports
+              - containerPort: 80
+                name: http
+              - containerPort: 3000
+                name: http-setup
+              - containerPort: 53
+                name: dns-tcp
+                protocol: TCP
+              - containerPort: 53
+                name: dns-udp
+                protocol: UDP
+              - containerPort: 443
+                name: dns-https
+                protocol: TCP
+              - containerPort: 853
+                name: tls-tcp
+                protocol: TCP
 
     service:
       app:
@@ -52,8 +70,10 @@ spec:
         ports:
           http:
             port: 80
+            targetPort: http  # Maps to container port 80
           http-setup:
             port: 3000
+            targetPort: http-setup  # Maps to container port 3000
       dns:
         controller: adguard
         type: LoadBalancer
@@ -63,16 +83,16 @@ spec:
         ports:
           dns-https:
             port: 443
-            protocol: TCP
+            targetPort: dns-https
           dns-tcp:
             port: 53
-            protocol: TCP
+            targetPort: dns-tcp
           dns-udp:
             port: 53
-            protocol: UDP
+            targetPort: dns-udp
           tls-tcp:
             port: 853
-            protocol: TCP
+            targetPort: tls-tcp
     ingress:
       app:
         className: internal
@@ -82,7 +102,7 @@ spec:
               - path: /
                 service:
                   identifier: app
-                  port: http
+                  port: http  # Uses port 80
         tls:
           - hosts:
               - *host
