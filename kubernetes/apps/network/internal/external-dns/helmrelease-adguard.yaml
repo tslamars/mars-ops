@@ -25,9 +25,7 @@ spec:
           tag: v8.0.0@sha256:1a7b12b3fef352626345653809716ada3d7569c930b1bf85c2e1b98e022ca9aa
           pullPolicy: IfNotPresent
         env:
-            valueFrom:
-              secretKeyRef:
-              - name: ADGUARD_URL
+          - name: ADGUARD_URL
             valueFrom:
               secretKeyRef:
                 name: &secret internal-external-dns-secret
@@ -43,7 +41,7 @@ spec:
                 name: &secret internal-external-dns-secret
                 key: ADGUARD_PASSWORD
           - name: DRY_RUN
-            value: "false" 
+            value: "false"
           securityContext:
             readOnlyRootFilesystem: true
         livenessProbe:
@@ -60,6 +58,7 @@ spec:
           timeoutSeconds: 5
     extraArgs:
       - --ignore-ingress-tls-spec
+      - --webhook-provider-url=http://localhost:8888  # Merged duplicate extraArgs
     triggerLoopOnEvent: true
     policy: sync
     sources: ["ingress", "service"]
@@ -70,6 +69,3 @@ spec:
       enabled: true
     podAnnotations:
       secret.reloader.stakater.com/reload: *secret
-
-    extraArgs:
-      - --webhook-provider-url=http://localhost:8888
