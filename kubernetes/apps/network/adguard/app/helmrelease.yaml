@@ -52,7 +52,7 @@ spec:
         ports:
           http:
             port: 80
-          http:
+          http-setup:
             port: 3000
       dns:
         controller: adguard
