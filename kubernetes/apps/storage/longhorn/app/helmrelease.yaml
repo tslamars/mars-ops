@@ -27,8 +27,8 @@ spec:
       retries: 3
   values:
     csi:
-      attacherReplicaCount: 3
-      provisionerReplicaCount: 3
+      #attacherReplicaCount: 3
+      #provisionerReplicaCount: 3
       # resizerReplicaCount: *replicas
       # snapshotterReplicaCount: *replicas
     # persistence:
@@ -36,7 +36,7 @@ spec:
     defaultSettings:
       createDefaultDiskLabeledNodes: true
       #defaultDiskLabel: "longhorn-disk=true"
-      default-data-path: "/var/mnt/data"
+      #default-data-path: "/var/mnt/data"
       #nodeSelector:
       #longhorn-disk: "true"
       defaultDataLocality: true
