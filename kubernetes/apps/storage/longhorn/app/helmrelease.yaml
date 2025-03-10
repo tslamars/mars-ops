@@ -26,35 +26,23 @@ spec:
       strategy: rollback
       retries: 3
   values:
-    csi:
-      #attacherReplicaCount: 3
-      #provisionerReplicaCount: 3
+    # csi:
+      # attacherReplicaCount: &replicas 1
+      # provisionerReplicaCount: *replicas
       # resizerReplicaCount: *replicas
       # snapshotterReplicaCount: *replicas
     # persistence:
     #   defaultClassReplicaCount: 1
     defaultSettings:
-      createDefaultDiskLabeledNodes: true
-      #defaultDiskLabel: "longhorn-disk=true"
-      #default-data-path: "/var/mnt/data"
-      #nodeSelector:
-      #longhorn-disk: "true"
+      # createDefaultDiskLabeledNodes: true
       defaultDataLocality: true
-      replica-auto-balance: "best-effort"
-      #replicaAutoBalance: true
+      replicaAutoBalance: true
       storageMinimalAvailablePercentage: 1
-      storageReservedPercentageForDefaultDisk: 5
+      storageReservedPercentageForDefaultDisk: 10
       defaultLonghornStaticStorageClass: longhorn
       nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
       concurrentAutomaticEngineUpgradePerNodeLimit: 3
       orphanAutoDeletion: true
-      longhornStorageClass:
-      reclaimPolicy: Delete
-      allowVolumeExpansion: true
-      parameters:
-        numberOfReplicas: "3"
-        staleReplicaTimeout: "30"
-        fsType: "ext4"
     # longhornUI:
     #   replicas: *replicas
     ingress:
