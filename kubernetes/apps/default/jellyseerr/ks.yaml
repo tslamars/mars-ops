@@ -10,13 +10,13 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   components:
-    - ../../../../components/gatus/guarded
-  #  - ../../../../components/volsync
+    - ../../../../components/gatus/external
+    - ../../../../components/volsync
   dependsOn:
     - name: onepassword
       namespace: external-secrets
-    - name: csi-driver-nfs
-      namespace: kube-system
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
   interval: 1h
   path: ./kubernetes/apps/default/jellyseerr/app
   postBuild:
@@ -24,7 +24,7 @@ spec:
       APP: *app
       GATUS_PATH: /api/v1/status
       GATUS_SUBDOMAIN: requests
-      #VOLSYNC_CAPACITY: 5Gi
+      VOLSYNC_CAPACITY: 5Gi
   prune: true
   retryInterval: 2m
   sourceRef:
