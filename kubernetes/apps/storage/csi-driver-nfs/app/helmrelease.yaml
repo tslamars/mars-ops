@@ -27,10 +27,10 @@ spec:
       replicas: 1
     storageClass:
       create: true
-      name: nfs-slow
+      name: unaspro
       parameters:
-        server: nas.kvshs.xyz
-        share: /mnt/user/kubernetes
+        server: 10.69.70.10
+        share: /volume1/.srv/.unifi-drive/kubernetes/.data
       mountOptions:
         - nfsvers=4.2
         - nconnect=16

@@ -49,8 +49,8 @@ spec:
       enabled: true
       ingressClassName: internal
       annotations:
-        external-dns.alpha.kubernetes.io/target: "internal.tslamars.com"
-      host: "longhorn.tslamars.com"
+        external-dns.alpha.kubernetes.io/target: "internal.${SECRET_DOMAIN}"
+      host: "longhorn.${SECRET_DOMAIN}"
       tls: false
     metrics:
       serviceMonitor:
