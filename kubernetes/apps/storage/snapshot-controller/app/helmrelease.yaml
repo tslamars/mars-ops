@@ -5,7 +5,7 @@ kind: HelmRelease
 metadata:
   name: snapshot-controller
 spec:
-  interval: 1h
+  interval: 30m
   chart:
     spec:
       chart: snapshot-controller
@@ -26,6 +26,18 @@ spec:
       retries: 3
   values:
     controller:
+      volumeSnapshotClasses:
+          - name: longhorn-snapclass
+            annotations:
+              snapshot.storage.kubernetes.io/is-default-class: "true"
+            driver: driver.longhorn.io
+            deletionPolicy: Delete
+            parameters:
+              # needed for successful VolumeSnapshots
+              # see: https://github.com/longhorn/longhorn/issues/2534#issuecomment-1010508714
+              type: snap
       replicaCount: 2
       serviceMonitor:
         create: true
+    webhook:
+      enabled: false
