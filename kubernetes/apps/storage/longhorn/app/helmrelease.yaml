@@ -36,7 +36,7 @@ spec:
     defaultSettings:
       createDefaultDiskLabeledNodes: true
       defaultDiskLabel: "longhorn-disk=true"
-      defaultDataPath: /var/lib/longhorn
+      default-data-path: "/var/lib/longhorn"
       nodeSelector:
       longhorn-disk: "true"
       defaultDataLocality: true
@@ -48,6 +48,13 @@ spec:
       nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
       concurrentAutomaticEngineUpgradePerNodeLimit: 3
       orphanAutoDeletion: true
+      longhornStorageClass:
+      reclaimPolicy: Delete
+      allowVolumeExpansion: true
+      parameters:
+        numberOfReplicas: "3"
+        staleReplicaTimeout: "30"
+        fsType: "ext4"
     # longhornUI:
     #   replicas: *replicas
     ingress:
