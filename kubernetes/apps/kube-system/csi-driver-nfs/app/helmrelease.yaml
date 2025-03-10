@@ -5,7 +5,7 @@ kind: HelmRelease
 metadata:
   name: csi-driver-nfs
 spec:
-  interval: 30m
+  interval: 1h
   chart:
     spec:
       chart: csi-driver-nfs
@@ -26,4 +26,15 @@ spec:
     controller:
       replicas: 1
     storageClass:
-      create: false  # Disable StorageClass creation
+      create: true
+      name: unaspro-nfs
+      parameters:
+        server: 10.69.70.10
+        share: /volume1/.srv/.unifi-drive/kubernetes/.data
+      mountOptions:
+        - nfsvers=4.2
+        - nconnect=16
+        - hard
+        - noatime
+      reclaimPolicy: Delete
+      volumeBindingMode: Immediate
