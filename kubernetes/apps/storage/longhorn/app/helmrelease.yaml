@@ -35,10 +35,10 @@ spec:
     #   defaultClassReplicaCount: 1
     defaultSettings:
       createDefaultDiskLabeledNodes: true
-      defaultDiskLabel: "longhorn-disk=true"
-      default-data-path: "/var/lib/longhorn"
-      nodeSelector:
-      longhorn-disk: "true"
+      #defaultDiskLabel: "longhorn-disk=true"
+      default-data-path: "/var/mnt/data"
+      #nodeSelector:
+      #longhorn-disk: "true"
       defaultDataLocality: true
       replica-auto-balance: "best-effort"
       #replicaAutoBalance: true
