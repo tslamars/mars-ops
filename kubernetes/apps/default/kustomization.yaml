@@ -8,3 +8,4 @@ components:
 resources:
   - ./echo/ks.yaml
   - ./jellyseerr/ks.yaml
+  - ./radarr/ks.yaml
