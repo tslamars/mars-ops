@@ -9,6 +9,6 @@ resources:
   - ./echo-server/ks.yaml
   - ./emqx/ks.yaml
 #  - ./home-assistant/ks.yaml
-#  - ./jellyseerr/ks.yaml
+  - ./jellyseerr/ks.yaml
   - ./tautulli/ks.yaml
   - ./radarr/ks.yaml
