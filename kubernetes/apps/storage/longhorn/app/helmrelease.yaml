@@ -26,9 +26,9 @@ spec:
       strategy: rollback
       retries: 3
   values:
-    # csi:
-      # attacherReplicaCount: &replicas 1
-      # provisionerReplicaCount: *replicas
+    csi:
+      attacherReplicaCount: 3
+      provisionerReplicaCount: 3
       # resizerReplicaCount: *replicas
       # snapshotterReplicaCount: *replicas
     # persistence:
@@ -40,7 +40,8 @@ spec:
       nodeSelector:
       longhorn-disk: "true"
       defaultDataLocality: true
-      replicaAutoBalance: true
+      replica-auto-balance: "best-effort"
+      #replicaAutoBalance: true
       storageMinimalAvailablePercentage: 1
       storageReservedPercentageForDefaultDisk: 5
       defaultLonghornStaticStorageClass: longhorn
