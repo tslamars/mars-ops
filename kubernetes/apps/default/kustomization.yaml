@@ -12,4 +12,5 @@ resources:
   - ./jellyseerr/ks.yaml
   - ./tautulli/ks.yaml
   - ./radarr/ks.yaml
+  - ./radarr-4k/ks.yaml
   - ./sonarr/ks.yaml
