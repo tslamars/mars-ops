@@ -11,12 +11,12 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/gatus/external
-    - ../../../../components/volsync
+#    - ../../../../components/volsync
   dependsOn:
     - name: onepassword
       namespace: external-secrets
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    - name: longhorn
+      namespace: flux-system
   interval: 1h
   path: ./kubernetes/apps/default/jellyseerr/app
   postBuild:
