@@ -34,11 +34,15 @@ spec:
     # persistence:
     #   defaultClassReplicaCount: 1
     defaultSettings:
-      # createDefaultDiskLabeledNodes: true
+      createDefaultDiskLabeledNodes: true
+      defaultDiskLabel: "longhorn-disk=true"
+      defaultDataPath: /var/lib/longhorn
+      nodeSelector:
+      longhorn-disk: "true"
       defaultDataLocality: true
       replicaAutoBalance: true
       storageMinimalAvailablePercentage: 1
-      storageReservedPercentageForDefaultDisk: 10
+      storageReservedPercentageForDefaultDisk: 5
       defaultLonghornStaticStorageClass: longhorn
       nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
       concurrentAutomaticEngineUpgradePerNodeLimit: 3
