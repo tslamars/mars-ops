@@ -90,21 +90,21 @@ spec:
       config:
         type: nfs
         server: 10.69.70.10
-        path: /volume1/.srv/.unifi-drive/media/.data/radarr/config
+        path: /volume1/.srv/.unifi-drive/kubernetes/.data/radarr/config
         globalMounts:
           - path: /config
             readOnly: false
       config-cache:
         type: nfs
         server: 10.69.70.10
-        path: /volume1/.srv/.unifi-drive/media/.data/radarr/cache
+        path: /volume1/.srv/.unifi-drive/kubernetes/.data/radarr/cache
         globalMounts:
           - path: /config/MediaCover
             readOnly: false
       media:
         type: nfs
         server: 10.69.70.10
-        path: /volume1/.srv/.unifi-drive/media/.data/radarr
+        path: /volume1/.srv/.unifi-drive/kubernetes/.data/radarr
         globalMounts:
           - path: /media
             readOnly: false

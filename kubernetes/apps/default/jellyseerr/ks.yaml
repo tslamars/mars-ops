@@ -15,6 +15,8 @@ spec:
   dependsOn:
     - name: onepassword
       namespace: external-secrets
+    - name: csi-driver-nfs
+      namespace: kube-system
   interval: 1h
   path: ./kubernetes/apps/default/jellyseerr/app
   postBuild:
