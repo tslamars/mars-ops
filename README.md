@@ -9,6 +9,16 @@ kubectl apply -f ./kubernetes/apps/external-secrets/onepassword/app/onepassword-
 ## Longhorn specific config for Proxmox
 Using my other [talos-k8s-iac](https://github.com/tslamars/talos-k8s-iac) template to provision Talos with a dedicated disk for Longhorn storage, the following needs to be added to the generated machine configs:
 
+- Patch volumes
+```
+talosctl patch mc --nodes 10.10.5.180,10.10.5.181,10.10.5.182 --patch @longhorn-volume.patch.yaml
+```
+
+- Patch disks:
+```
+talosctl patch mc --nodes 10.10.5.180,10.10.5.181,10.10.5.182 --patch @longhorn-disk.patch.yaml
+```
+
 - Kubelet section:
 ```
 extraMounts:
