@@ -88,24 +88,25 @@ spec:
                   port: http
     persistence:
       config:
-        existingClaim: radarr
+        type: nfs
+        server: 10.69.70.10
+        path: /volume1/.srv/.unifi-drive/media/.data/radarr/config
+        globalMounts:
+          - path: /config
+            readOnly: false
       config-cache:
-        existingClaim: radarr-cache
+        type: nfs
+        server: 10.69.70.10
+        path: /volume1/.srv/.unifi-drive/media/.data/radarr/cache
         globalMounts:
           - path: /config/MediaCover
-      #scripts:
-      #  type: configMap
-      #  name: radarr-configmap
-      #  defaultMode: 0775
-        #globalMounts:
-        #  - path: /scripts/pushover-notifier.sh
-        #    subPath: pushover-notifier.sh
-        #    readOnly: true
+            readOnly: false
       media:
         type: nfs
         server: 10.69.70.10
-        path: /volume1/.srv/.unifi-drive/media/.data
+        path: /volume1/.srv/.unifi-drive/media/.data/radarr
         globalMounts:
           - path: /media
+            readOnly: false
       tmp:
         type: emptyDir
