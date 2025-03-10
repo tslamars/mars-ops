@@ -15,8 +15,6 @@ spec:
   dependsOn:
     - name: onepassword
       namespace: external-secrets
-    - name: longhorn
-      namespace: flux-system
   interval: 1h
   path: ./kubernetes/apps/default/jellyseerr/app
   postBuild:
