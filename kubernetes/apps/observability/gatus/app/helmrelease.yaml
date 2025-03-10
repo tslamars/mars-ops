@@ -108,8 +108,6 @@ spec:
       create: true
       name: gatus
     persistence:
-      #config:
-      #  existingClaim: gatus
       config-file:
         type: configMap
         name: gatus-configmap
@@ -121,11 +119,6 @@ spec:
         type: nfs
         server: 10.69.70.10
         path: /volume1/.srv/.unifi-drive/kubernetes/.data
-        mountOptions:
-          - nfsvers=4.2
-          - nconnect=16
-          - hard
-          - noatime
         globalMounts:
           - path: /config
             readOnly: false
