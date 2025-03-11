@@ -3,10 +3,10 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres
+  name: postgres16
 spec:
-  instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.2
+  instances: 3 # set to the number of nodes in the cluster
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.6-11
   primaryUpdateStrategy: unsupervised
   storage:
     size: 20Gi
@@ -16,13 +16,15 @@ spec:
   enableSuperuserAccess: true
   postgresql:
     parameters:
-      max_connections: "200"
+      max_connections: "400"
       shared_buffers: 256MB
+  nodeMaintenanceWindow:
+    inProgress: false
+    reusePVC: true
   resources:
     requests:
-      cpu: 50m
+      cpu: 500m
     limits:
-      hugepages-2Mi: 2Gi # Requires sysctl set on the host
       memory: 2Gi
   monitoring:
     enablePodMonitor: true
@@ -34,11 +36,11 @@ spec:
       wal:
         compression: bzip2
         maxParallel: 8
-      destinationPath: s3://cnpg/
-      endpointURL: https://d74d8dfc1170c5004e77bb7bb67219a6.r2.cloudflarestorage.com/
+      destinationPath: s3://cloudnative-pg/
+      endpointURL: https://s3.kvshs.xyz
       # Note: serverName version needs to be inclemented
       # when recovering from an existing cnpg cluster
-      serverName: &currentCluster cnpg17-v3
+      serverName: &currentCluster postgres16-v13
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
@@ -46,14 +48,15 @@ spec:
         secretAccessKey:
           name: cloudnative-pg-secret
           key: aws-secret-access-key
+  # Note: If deploying a new cluster and not restoring from backup, comment out below bootstrap and externalclusters.
   # Note: previousCluster needs to be set to the name of the previous
   # cluster when recovering from an existing cnpg cluster
-  # bootstrap:
-  #   recovery:
-  #     source: &previousCluster cnpg17-v2
-  # # Note: externalClusters is needed when recovering from an existing cnpg cluster
-  # externalClusters:
-  #   - name: *previousCluster
-  #     barmanObjectStore:
-  #       <<: *barmanObjectStore
-  #       serverName: *previousCluster
+  bootstrap:
+    recovery:
+      source: &previousCluster postgres16-v12
+  # Note: externalClusters is needed when recovering from an existing cnpg cluster
+  externalClusters:
+    - name: *previousCluster
+      barmanObjectStore:
+        <<: *barmanObjectStore
+        serverName: *previousCluster
