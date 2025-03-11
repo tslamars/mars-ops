@@ -40,7 +40,7 @@ spec:
         storage:
           volumeClaimTemplate:
             spec:
-              storageClassName: ceph-block
+              storageClassName: longhorn
               resources:
                 requests:
                   storage: 1Gi
@@ -86,7 +86,7 @@ spec:
         storageSpec:
           volumeClaimTemplate:
             spec:
-              storageClassName: ceph-block
+              storageClassName: longhorn
               resources:
                 requests:
                   storage: 50Gi
