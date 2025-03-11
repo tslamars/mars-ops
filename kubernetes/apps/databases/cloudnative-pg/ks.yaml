@@ -9,8 +9,6 @@ spec:
   dependsOn:
     - name: onepassword
       namespace: external-secrets
-  components:
-    - ../../../../components/gatus/guarded
   path: ./kubernetes/apps/databases/cloudnative-pg/app
   prune: true
   sourceRef:
@@ -36,8 +34,6 @@ spec:
   dependsOn:
     - name: cloudnative-pg
       namespace: databases
-  components:
-    - ../../../../components/gatus/guarded
   path: ./kubernetes/apps/databases/cloudnative-pg/cluster
   prune: true
   sourceRef:
