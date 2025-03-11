@@ -44,7 +44,7 @@ This is a mono repository for my home infrastructure and Kubernetes cluster. I t
 
 ---
 
-## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f331/512.gif" alt="🚀" width="20" height="20"> Kubernetes
+## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/1f680/512.gif" alt="🚀" width="20" height="20"> Kubernetes
 
 My Kubernetes cluster is deployed with [Talos](https://www.talos.dev). This is a semi-hyper-converged cluster, workloads and block storage are sharing the same available resources on my nodes while I have a separate server with ZFS for NFS/SMB shares, bulk file storage and backups.
 
