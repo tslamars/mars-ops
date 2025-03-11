@@ -97,6 +97,9 @@ In my cluster there are two instances of [ExternalDNS](https://github.com/kubern
 |-----------------------------|-----|--------------|---------------------------------|------|---------------|-------------------------|
 | Dell R630                   | 1   | 1TB SSD      | 1TB (local) / 400GB (longhorn)  | 96GB | Talos         | Kubernetes              |
 | UniFi UDM SE                | 1   | -            | 2x4TB HDD                       | -    | -             | Router & NVR            |
+| GMKtec M5 Plus 5825U        | 1   | 1TB SSD      |                                 | -    | -             | Future worker node      |
+| OptiPlex 3020               | 1   | 1TB SSD      |                                 | -    | -             | Future worker node      |
+| OptiPlex 3060               | 1   | 1TB SSD      |                                 | -    | -             | Future worker node      |
 | UniFi Pro Max 24 PoE        | 1   | -            | -                               | -    | -             | Core Switch             |
 | UniFi USW-Enterprise-24-PoE | 1   | -            | -                               | -    | -             | Another Switch          |
 
