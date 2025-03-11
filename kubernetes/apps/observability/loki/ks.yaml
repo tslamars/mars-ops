@@ -12,6 +12,8 @@ spec:
   dependsOn:
     - name: longhorn
       namespace: flux-system
+  components:
+    - ../../../../components/gatus/external
   interval: 1h
   path: ./kubernetes/apps/observability/loki/app
   prune: true
