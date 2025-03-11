@@ -23,6 +23,8 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
+  components:
+    - ../../../../components/gatus/guarded
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -44,3 +46,5 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 3m
+  components:
+      - ../../../../components/gatus/guarded
