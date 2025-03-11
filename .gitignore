@@ -23,3 +23,4 @@ Thumbs.db
 onepassword-secret.yaml
 onepassword-connect.secret.yaml.sc
 tslamars-com-production-tls-backup.yaml
+tslamars-com-production-tls.crt
