@@ -1,4 +1,3 @@
----
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -26,25 +25,24 @@ spec:
       strategy: rollback
       retries: 3
   values:
-    # csi:
-      # attacherReplicaCount: &replicas 1
-      # provisionerReplicaCount: *replicas
-      # resizerReplicaCount: *replicas
-      # snapshotterReplicaCount: *replicas
-    # persistence:
-    #   defaultClassReplicaCount: 1
+    csi:
+      attacherReplicaCount: 1
+      provisionerReplicaCount: 1
+      resizerReplicaCount: 1
+      snapshotterReplicaCount: 1
+    persistence:
+      defaultClassReplicaCount: 1
     defaultSettings:
-      # createDefaultDiskLabeledNodes: true
       defaultDataLocality: true
       replicaAutoBalance: true
-      storageMinimalAvailablePercentage: 1
+      storageMinimalAvailablePercentage: 10  # Safer than 1
       storageReservedPercentageForDefaultDisk: 5
       defaultLonghornStaticStorageClass: longhorn
-      nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
-      concurrentAutomaticEngineUpgradePerNodeLimit: 3
+      nodeDownPodDeletionPolicy: do-nothing  # Safer for data consistency
+      concurrentAutomaticEngineUpgradePerNodeLimit: 1
       orphanAutoDeletion: true
-    # longhornUI:
-    #   replicas: *replicas
+    longhornUI:
+      replicas: 1
     ingress:
       enabled: true
       ingressClassName: internal
