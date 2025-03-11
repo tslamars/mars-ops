@@ -9,7 +9,7 @@ resources:
   - ./cloudnative-pg/ks.yaml
 #  - ./dragonfly/ks.yaml
 components:
-  - ../../../../components/alerts
+  - ../../../components/alerts
 transformers:
   - |-
     apiVersion: builtin
