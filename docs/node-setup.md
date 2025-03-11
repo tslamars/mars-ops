@@ -21,6 +21,7 @@ talosctl patch mc --nodes 10.10.5.180,10.10.5.181,10.10.5.182 --patch @longhorn-
 talosctl patch mc --nodes 10.10.5.180,10.10.5.181,10.10.5.182 --patch @longhorn-disk.patch.yaml
 ```
 
+## Manual machineconfig deployment
 - Kubelet section: (make sure indentation is correct, otherwise the disk won't appear in Longhorn)
 ```
 extraMounts:
