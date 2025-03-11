@@ -1,0 +1,116 @@
+node: 10.10.5.180
+metadata:
+    namespace: config
+    type: MachineConfigs.config.talos.dev
+    id: v1alpha1
+    version: 1
+    owner:
+    phase: running
+    created: 2025-03-11T00:27:35Z
+    updated: 2025-03-11T00:27:35Z
+spec: |
+    version: v1alpha1
+    debug: false
+    persist: true
+    machine:
+      type: worker
+      token: cpt22z.1sk0e04i5ovb1pe8
+      ca:
+        crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJQekNCOHFBREFnRUNBaEVBNHlyY25GTVVvK3RUbFBNYXMybEI1ekFGQmdNclpYQXdFREVPTUF3R0ExVUUKQ2hNRmRHRnNiM013SGhjTk1qVXdNekEzTVRjek56STNXaGNOTXpVd016QTFNVGN6TnpJM1dqQVFNUTR3REFZRApWUVFLRXdWMFlXeHZjekFxTUFVR0F5dGxjQU1oQU5sa3ZQa2NMaTlEMCtaUVZaK29Pekg4N2hoNDZJU2dFaDc4ClRqa1A2amVTbzJFd1h6QU9CZ05WSFE4QkFmOEVCQU1DQW9Rd0hRWURWUjBsQkJZd0ZBWUlLd1lCQlFVSEF3RUcKQ0NzR0FRVUZCd01DTUE4R0ExVWRFd0VCL3dRRk1BTUJBZjh3SFFZRFZSME9CQllFRkF4N2JHS0JZWE4vNGlnKwo5aFFQTHVRQ2tDcERNQVVHQXl0bGNBTkJBSlByWmxHeUluQ1pNVFlKMm8xVURiZTNOUEhlNzk2MWsxK1dSeWVFCjFDZ1p1V1plQ0xaMFNYamVlRThFQ1RVMXlubFljVGNGM05GcnRQUzJSQmFVSFFFPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+        key: ""
+      certSANs:
+        - 127.0.0.1
+        - 10.10.5.200
+      kubelet:
+        image: ghcr.io/siderolabs/kubelet:v1.32.2
+        extraConfig:
+          serializeImagePulls: false
+        defaultRuntimeSeccompProfileEnabled: true
+        nodeIP:
+          validSubnets:
+            - 10.10.5.0/21
+        disableManifestsDirectory: true
+        extraMounts:
+          - destination: /var/lib/longhorn
+            type: bind
+            source: /var/lib/longhorn
+            options:
+              - bind
+              - rshared
+              - rw
+      disks:
+        - device: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1
+          partitions:
+            - mountpoint: /var/lib/longhorn
+      network:
+        hostname: talos-marsworker-00
+        interfaces:
+          - deviceSelector:
+              hardwareAddr: b6:7a:03:a2:10:0a
+            addresses:
+              - 10.10.5.180/21
+            routes:
+              - network: 0.0.0.0/0
+                gateway: 10.10.0.1
+            mtu: 1500
+            dhcp: false
+        nameservers:
+          - 1.1.1.1
+          - 1.0.0.1
+        disableSearchDomain: true
+      install:
+        disk: /dev/sda
+        image: factory.talos.dev/installer/88d1f7a5c4f1d3aba7df787c448c1d3d008ed29cfb34af53fa0df4336a56040b:v1.9.4
+        wipe: false
+      files:
+        - content: |-
+            [plugins."io.containerd.cri.v1.images"]
+              discard_unpacked_layers = false
+          permissions: 0o644
+          path: /etc/cri/conf.d/20-customization.part
+          op: create
+      time:
+        disabled: false
+        servers:
+          - 162.159.200.1
+          - 162.159.200.123
+      sysctls:
+        fs.inotify.max_user_instances: "8192"
+        fs.inotify.max_user_watches: "1048576"
+        net.core.rmem_max: "7500000"
+        net.core.wmem_max: "7500000"
+      features:
+        rbac: true
+        stableHostname: true
+        apidCheckExtKeyUsage: true
+        diskQuotaSupport: true
+        kubePrism:
+          enabled: true
+          port: 7445
+        hostDNS:
+          enabled: true
+          forwardKubeDNSToHost: true
+    cluster:
+      id: i8OOIbyOYAAoeIfReoZeUqrWy1xGswxMaVTgQqgSxiw=
+      secret: qLyGWzr2NHuoGa0wRg01DQA4pRgxtksUoNfxkpMBeEE=
+      controlPlane:
+        endpoint: https://10.10.5.200:6443
+      clusterName: kubernetes
+      network:
+        cni:
+          name: none
+        dnsDomain: cluster.local
+        podSubnets:
+          - 10.42.0.0/16
+        serviceSubnets:
+          - 10.43.0.0/16
+      token: 8f1syf.t9uhfn1gtpwmvxtc
+      ca:
+        crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJpVENDQVMrZ0F3SUJBZ0lRRGhNN3V3aG9DTm5NUHplMDVSMzV3REFLQmdncWhrak9QUVFEQWpBVk1STXcKRVFZRFZRUUtFd3ByZFdKbGNtNWxkR1Z6TUI0WERUSTFNRE13TnpFM016Y3lORm9YRFRNMU1ETXdOVEUzTXpjeQpORm93RlRFVE1CRUdBMVVFQ2hNS2EzVmlaWEp1WlhSbGN6QlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDlBd0VICkEwSUFCRjNNRkZzc2svL3M0aVhSeFpHOWxzS0JBNmJadWRjdzhjeVA4YjZMRkRSWHJ3cm5HalRrMGMxZGJhTUoKQXd3U0ZhVmxUVFV4V21TdUcwZlpUVzlDeFVxallUQmZNQTRHQTFVZER3RUIvd1FFQXdJQ2hEQWRCZ05WSFNVRQpGakFVQmdnckJnRUZCUWNEQVFZSUt3WUJCUVVIQXdJd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFCkZnUVVtSm5GMjgrWHVFWG5xY01GNEtId0dCb1Vndk13Q2dZSUtvWkl6ajBFQXdJRFNBQXdSUUlnRWVUS01JSS8KSDE3V3lYeWVzTGpHakdtSDNKbkF5TFJseWlFdUs2NnJmVVVDSVFDd1hLYTlOT205ZHd4NmlWOE1KUUloRVBtbQphQ0FmZTh6UU91cnJicjYwZ0E9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+        key: ""
+      discovery:
+        enabled: true
+        registries:
+          kubernetes:
+            disabled: true
+          service: {}
