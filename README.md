@@ -90,16 +90,17 @@ This Git repository contains the following directories under [Kubernetes](./kube
 In my cluster there are two instances of [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) running. One for syncing private DNS records to my `UDM Pro Max` using [ExternalDNS webhook provider for UniFi](https://github.com/kashalls/external-dns-unifi-webhook), while another instance syncs public DNS to `Cloudflare`. This setup is managed by creating ingresses with two specific classes: `internal` for private DNS and `external` for public DNS. The `external-dns` instances then syncs the DNS records to their respective platforms accordingly.
 
 ---
+The longer term goal is to get Talos running on bare metal. For now, I have Talos running on Proxmox VMs in my lab environment.
 
 ## <img src="https://fonts.gstatic.com/s/e/notoemoji/latest/2699_fe0f/512.gif" alt="⚙" width="20" height="20"> Hardware
 
 | Device                      | Num | OS Disk Size | Data Disk Size                  | Ram  | OS            | Function                |
 |-----------------------------|-----|--------------|---------------------------------|------|---------------|-------------------------|
-| Dell R630                   | 1   | 1TB SSD      | 1TB (local) / 400GB (longhorn)  | 96GB | Talos         | Kubernetes              |
+| Dell R630                   | 1   | 1TB SSD      | 1TB (local) / 400GB (longhorn)  | 96GB | Proxmox       | Kubernetes              |
 | UniFi UDM SE                | 1   | -            | 2x4TB HDD                       | -    | -             | Router & NVR            |
-| GMKtec M5 Plus 5825U        | 1   | 1TB SSD      |                                 | -    | -             | Future worker node      |
-| OptiPlex 3020               | 1   | 1TB SSD      |                                 | -    | -             | Future worker node      |
-| OptiPlex 3060               | 1   | 1TB SSD      |                                 | -    | -             | Future worker node      |
+| GMKtec M5 Plus 5825U        | 1   | 1TB SSD      |                                 | -    | Proxmox       | Future worker node      |
+| OptiPlex 3020               | 1   | 1TB SSD      |                                 | -    | Proxmox       | Future worker node      |
+| OptiPlex 3060               | 1   | 1TB SSD      |                                 | -    | Proxmox       | Future worker node      |
 | UniFi Pro Max 24 PoE        | 1   | -            | -                               | -    | -             | Core Switch             |
 | UniFi USW-Enterprise-24-PoE | 1   | -            | -                               | -    | -             | Another Switch          |
 
