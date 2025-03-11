@@ -1,5 +1,3 @@
----
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -16,20 +14,21 @@ spec:
         name: cloudnative-pg
         namespace: flux-system
   install:
+    crds: Create  # Explicitly create CRDs
     remediation:
       retries: 3
   upgrade:
+    crds: CreateUpdate  # Update CRDs on upgrade
     cleanupOnFail: true
     remediation:
       strategy: rollback
       retries: 3
-  dependsOn:
-    - name: openebs
-      namespace: openebs-system
   values:
     crds:
-      create: true
+      create: true  # Keep for compatibility with chart
     monitoring:
       podMonitorEnabled: false
       grafanaDashboard:
         create: true
+    storage:
+      defaultStorageClass: longhorn
