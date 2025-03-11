@@ -4,6 +4,7 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: postgres16
+  namespace: database
 spec:
   instances: 3 # set to the number of nodes in the cluster
   imageName: ghcr.io/cloudnative-pg/postgresql:16.6-11
