@@ -2,7 +2,7 @@ apiVersion: longhorn.io/v1beta2
 kind: RecurringJob
 metadata:
   name: trim
-  namespace: longhorn-system
+  namespace: storage
 spec:
   name: trim
   cron: '0 4 * * ?'
