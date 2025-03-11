@@ -7,8 +7,8 @@ metadata:
 spec:
   targetNamespace: *namespace
   dependsOn:
-    - name: external-secrets-stores
-      namespace: kube-system
+    - name: onepassword
+      namespace: external-secrets
   path: ./kubernetes/apps/databases/cloudnative-pg/app
   prune: true
   sourceRef:
