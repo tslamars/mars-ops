@@ -1,6 +1,5 @@
 <div align="center">
-  <img src="./docs/assets/talos.svg" alt="Talos Linux logo" width="150" height="150">
-  <img src="./docs/assets/k8s.png" alt="Kubernetes logo" width="150" height="150">
+  <img src="./docs/assets/mars.png" alt="Mars" width="150" height="150">
 </div>
 
 <div align="center">
