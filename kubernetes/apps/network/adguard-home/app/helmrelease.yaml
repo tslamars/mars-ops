@@ -192,30 +192,26 @@ spec:
                 subPath: var
 
     ingress:
-      origin: &ingress
-        enabled: true
+      app:
+        className: internal
         annotations:
-          nginx.ingress.kubernetes.io/auth-snippet: |
-            proxy_set_header X-Forwarded-Host $http_host;
-          nginx.ingress.kubernetes.io/configuration-snippet: |
-            proxy_set_header Accept-Encoding "";
-            sub_filter '</head>' '<link rel="stylesheet" href="${theme_park}/base/adguard/overseerr.css"></head>';
+          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
         hosts:
-          - host: ${app_url}
+          - host: "{{ .Release.Name }}.tslamars.com"
             paths:
               - path: /
                 service:
-                  identifier: origin
+                  identifier: app
                   port: http
-        tls:
-          - secretName: ${certificate_name}
-            hosts:
-              - ${app_url}
-              - replica.${app_url}
+        #tls:
+        #  - secretName: ${certificate_name}
+        #    hosts:
+        #      - ${app_url}
+        #      - replica.${app_url}
       replica:
         <<: *ingress
         hosts:
-          - host: replica.${app_url}
+          - host: replica.tslamars.com
             paths:
               - path: /
                 service:
