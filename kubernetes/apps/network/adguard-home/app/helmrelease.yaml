@@ -17,10 +17,6 @@ spec:
   interval: 1h
   driftDetection:
     mode: enabled
-  postBuild:
-    substituteFrom:
-      - kind: Secret
-        name: adguard-home-secret
   values:
     controllers:
       adguard-home:
@@ -123,6 +119,9 @@ spec:
               REPLICA_PASSWORD: {{ .SYNC_PASSWORD }}
               REPLICA_AUTO_SETUP: "true"
               CRON: "*/10 * * * *"
+            envFrom:
+              - secretRef:
+                  name: jellyseerr-secret
             securityContext:
               readOnlyRootFilesystem: true
               allowPrivilegeEscalation: false
