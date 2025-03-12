@@ -1,4 +1,15 @@
-apiVersion: v1
-kind: Namespace
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
 metadata:
-  name: adguard-home
+  name: adguard-home-namespace
+  namespace: flux-system
+spec:
+  interval: 1h
+  path: ./kubernetes/apps/network/adguard-home
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    namespace: flux-system
+    name: flux-system
+  resources:
+    - namespace.yaml
