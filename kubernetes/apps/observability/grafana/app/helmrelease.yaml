@@ -251,7 +251,7 @@ spec:
     ingress:
       enabled: true
       ingressClassName: internal
-      hosts: ["grafana.devbu.io"]
+      hosts: ["grafana.tslamars.com"]
     persistence:
       enabled: false
     testFramework:

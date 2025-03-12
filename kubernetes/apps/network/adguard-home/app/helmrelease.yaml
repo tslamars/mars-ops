@@ -115,12 +115,12 @@ spec:
             env:
               ORIGIN_URL: http://adguard-home-origin:3000
               ORIGIN_WEB_URL: https://adguard-home.${SECRET_DOMAIN}
-              ORIGIN_USERNAME: {{ .sync_username }}
-              ORIGIN_PASSWORD: {{ .sync_password }}
+              ORIGIN_USERNAME: {{ .SYNC_USERNAME }}
+              ORIGIN_PASSWORD: {{ .SYNC_PASSWORD }}
               REPLICA_URL: http://adguard-home-replica:3000
               REPLICA_WEB_URL: https://replica.${SECRET_DOMAIN}
-              REPLICA_USERNAME: {{ .sync_username }}
-              REPLICA_PASSWORD: {{ .sync_password }}
+              REPLICA_USERNAME: {{ .SYNC_USERNAME }}
+              REPLICA_PASSWORD: {{ .SYNC_PASSWORD }}
               REPLICA_AUTO_SETUP: "true"
               CRON: "*/10 * * * *"
             securityContext:
