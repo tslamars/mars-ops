@@ -17,6 +17,10 @@ spec:
   interval: 1h
   driftDetection:
     mode: enabled
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: adguard-home-secret
   values:
     controllers:
       adguard-home:
@@ -110,13 +114,13 @@ spec:
             args: [run]
             env:
               ORIGIN_URL: http://adguard-home-origin:3000
-              ORIGIN_WEB_URL: https://${app_url}
-              ORIGIN_USERNAME: ${sync_username}
-              ORIGIN_PASSWORD: ${sync_password}
+              ORIGIN_WEB_URL: https://adguard-home.${SECRET_DOMAIN}
+              ORIGIN_USERNAME: {{ .sync_username }}
+              ORIGIN_PASSWORD: {{ .sync_password }}
               REPLICA_URL: http://adguard-home-replica:3000
-              REPLICA_WEB_URL: https://replica.${app_url}
-              REPLICA_USERNAME: ${sync_username}
-              REPLICA_PASSWORD: ${sync_password}
+              REPLICA_WEB_URL: https://replica.${SECRET_DOMAIN}
+              REPLICA_USERNAME: {{ .sync_username }}
+              REPLICA_PASSWORD: {{ .sync_password }}
               REPLICA_AUTO_SETUP: "true"
               CRON: "*/10 * * * *"
             securityContext:
@@ -195,9 +199,9 @@ spec:
       app: &ingress  # Define the anchor here
         className: internal
         annotations:
-          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
+          external-dns.alpha.kubernetes.io/target: "internal.${SECRET_DOMAIN}"
         hosts:
-          - host: "{{ .Release.Name }}.tslamars.com"
+          - host: "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
               - path: /
                 service:
@@ -211,7 +215,7 @@ spec:
       replica:
         <<: *ingress  # Reference the anchor
         hosts:
-          - host: replica.tslamars.com
+          - host: replica.${SECRET_DOMAIN}
             paths:
               - path: /
                 service:
