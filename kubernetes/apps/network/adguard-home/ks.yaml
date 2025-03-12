@@ -16,37 +16,37 @@ spec:
     substituteFrom:
       - kind: Secret
         name: app-vars
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: external-dns
-  namespace: adguard-home
-spec:
-  interval: 1h
-  targetNamespace: adguard-home
-  path: ./kubernetes/apps/network/adguard-home/external-dns
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    namespace: flux-system
-    name: home-ops
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: borgmatic
-  namespace: adguard-home
-spec:
-  interval: 1h
-  targetNamespace: adguard-home
-  path: ./kubernetes/apps/network/adguard-home/borgmatic
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    namespace: flux-system
-    name: home-ops
-  postBuild:
-    substituteFrom:
-      - kind: Secret
-        name: borgmatic-vars
+#---
+#apiVersion: kustomize.toolkit.fluxcd.io/v1
+#kind: Kustomization
+#metadata:
+#  name: external-dns
+#  namespace: adguard-home
+#spec:
+#  interval: 1h
+#  targetNamespace: adguard-home
+#  path: ./kubernetes/apps/network/adguard-home/external-dns
+#  prune: true
+#  sourceRef:
+#    kind: GitRepository
+#    namespace: flux-system
+#    name: home-ops
+#---
+#apiVersion: kustomize.toolkit.fluxcd.io/v1
+#kind: Kustomization
+#metadata:
+#  name: borgmatic
+#  namespace: adguard-home
+#spec:
+#  interval: 1h
+#  targetNamespace: adguard-home
+#  path: ./kubernetes/apps/network/adguard-home/borgmatic
+#  prune: true
+#  sourceRef:
+#    kind: GitRepository
+#    namespace: flux-system
+#    name: home-ops
+#  postBuild:
+#    substituteFrom:
+#      - kind: Secret
+#        name: borgmatic-vars

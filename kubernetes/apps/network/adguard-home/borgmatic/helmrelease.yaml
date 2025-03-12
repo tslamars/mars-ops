@@ -40,10 +40,6 @@ spec:
                 matchLabels:
                   app.kubernetes.io/name: adguard-home
                   apps.kubernetes.io/pod-index: "0"
-    podLabels:
-      policy.gabe565.com/egress-healthchecks: "true"
-      policy.gabe565.com/egress-namespace: "true"
-      policy.gabe565.com/egress-world: "true"
     env:
       TZ: America/New_York
       BORG_PASSPHRASE: ${borg_passphrase}
