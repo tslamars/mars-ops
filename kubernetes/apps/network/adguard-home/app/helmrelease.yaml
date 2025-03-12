@@ -192,7 +192,7 @@ spec:
                 subPath: var
 
     ingress:
-      app:
+      app: &ingress  # Define the anchor here
         className: internal
         annotations:
           external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
@@ -209,7 +209,7 @@ spec:
         #      - ${app_url}
         #      - replica.${app_url}
       replica:
-        <<: *ingress
+        <<: *ingress  # Reference the anchor
         hosts:
           - host: replica.tslamars.com
             paths:
