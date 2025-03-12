@@ -201,7 +201,7 @@ spec:
             paths:
               - path: /
                 service:
-                  identifier: app
+                  identifier: adguard-home
                   port: http
         #tls:
         #  - secretName: ${certificate_name}
