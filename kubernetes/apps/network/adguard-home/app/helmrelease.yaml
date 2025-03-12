@@ -121,7 +121,7 @@ spec:
               CRON: "*/10 * * * *"
             envFrom:
               - secretRef:
-                  name: jellyseerr-secret
+                  name: adguard-home-secret
             securityContext:
               readOnlyRootFilesystem: true
               allowPrivilegeEscalation: false
