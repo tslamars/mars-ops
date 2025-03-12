@@ -1,0 +1,49 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: adguard-home-external-dns
+  namespace: adguard-home
+spec:
+  interval: 1h
+  driftDetection:
+    mode: enabled
+  chart:
+    spec:
+      chart: external-dns
+      version: 1.15.2
+      sourceRef:
+        kind: HelmRepository
+        namespace: flux-system
+        name: external-dns
+      interval: 1h
+  values:
+    provider:
+      name: webhook
+      webhook:
+        image:
+          repository: ghcr.io/muhlba91/external-dns-provider-adguard
+          tag: v8.0.0@sha256:1a7b12b3fef352626345653809716ada3d7569c930b1bf85c2e1b98e022ca9aa
+          pullPolicy: IfNotPresent
+        env:
+          - name: ADGUARD_URL
+            value: http://adguard-home-origin:3000
+          - name: ADGUARD_USER
+            value: ${adguard_home_username}
+          - name: ADGUARD_PASSWORD
+            value: ${adguard_home_password}
+          - name: SERVER_HOST
+            value: 0.0.0.0
+        securityContext:
+          readOnlyRootFilesystem: true
+    interval: 1h
+    triggerLoopOnEvent: true
+    policy: sync
+    registry: noop
+
+    extraArgs:
+      - --webhook-provider-url=http://localhost:8888
+
+    podLabels:
+      policy.gabe565.com/egress-adguard-api: "true"
+      policy.gabe565.com/egress-kubeapi: "true"
+      policy.gabe565.com/egress-world: "true"
