@@ -25,13 +25,15 @@ spec:
         annotations:
           configmap.reloader.stakater.com/reload: unbound
         initContainers:
-          set-permissions:  # Changed from array to object syntax
-            image: busybox:1.36
-            command: ["sh", "-c", "chmod 700 /opt/adguardhome/work"]
-            volumeMounts:
-              - name: data
-                mountPath: /opt/adguardhome/work
-                subPath: work
+          set-permissions:
+            image:
+              repository: busybox
+              tag: "1.36"
+              pullPolicy: IfNotPresent  # Added to match the expected object structure
+            command:
+              - sh
+              - -c
+              - chmod 700 /opt/adguardhome/work
         containers:
           app:
             image:
@@ -109,6 +111,10 @@ spec:
                 unbound:
                   - path: /opt/unbound/data
                     subPath: unbound
+        extraVolumeMounts:
+          - name: data
+            mountPath: /opt/adguardhome/work
+            subPath: work
       sync:
         containers:
           app:
