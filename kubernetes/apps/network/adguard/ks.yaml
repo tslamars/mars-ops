@@ -8,7 +8,7 @@ metadata:
 spec:
   targetNamespace: network
   dependsOn:
-    - name: external-secrets-stores
+    - name: external-secrets
     - name: cert-manager
     - name: longhorn
   path: ./kubernetes/apps/network/adguard/app
