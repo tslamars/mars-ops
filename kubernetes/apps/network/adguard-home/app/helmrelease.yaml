@@ -59,10 +59,12 @@ spec:
                   failureThreshold: 30
                   periodSeconds: 5
             securityContext:
-              readOnlyRootFilesystem: false  # Allow writing for initial setup
-              runAsUser: 0  # Run as root for initial setup
-              runAsGroup: 0  # Run as root group for initial setup
-              allowPrivilegeEscalation: true  # Allow privilege escalation for initial setup
+              readOnlyRootFilesystem: true  # Reverted to secure setting
+              runAsUser: 65534  # Reverted to non-root user (nobody)
+              runAsGroup: 65534  # Reverted to non-root group
+              allowPrivilegeEscalation: false  # Reverted to secure setting
+              capabilities:
+                add: ["NET_BIND_SERVICE"]  # Added to allow binding to port 53 as non-root
           unbound:
             image:
               repository: ghcr.io/gabe565/unbound-cache
@@ -87,9 +89,9 @@ spec:
         pod:
           priorityClassName: system-cluster-critical
           securityContext:
-            fsGroup: 0  # Set fsGroup to 0 to ensure the volume is owned by root, matching the initContainer
+            fsGroup: 65534  # Reverted to match the non-root user
             fsGroupChangePolicy: OnRootMismatch
-            runAsNonRoot: false  # Allow the pod to run as root for initial setup
+            runAsNonRoot: true  # Reverted to enforce non-root
           affinity:
             podAntiAffinity:
               preferredDuringSchedulingIgnoredDuringExecution:
