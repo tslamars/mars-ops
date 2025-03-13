@@ -242,12 +242,12 @@ spec:
                 valueFrom:
                   secretKeyRef:
                     name: adguard-home-secret
-                    key: sync_username
+                    key: SYNC_USERNAME
               - name: ORIGIN_PASSWORD
                 valueFrom:
                   secretKeyRef:
                     name: adguard-home-secret
-                    key: sync_password
+                    key: SYNC_PASSWORD
               - name: REPLICA_URL
                 value: http://adguard-home-replica:3000
               - name: REPLICA_WEB_URL
