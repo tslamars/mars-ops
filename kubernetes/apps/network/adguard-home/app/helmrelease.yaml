@@ -48,17 +48,17 @@ spec:
                 spec:
                   failureThreshold: 30
                   periodSeconds: 5
-            securityContext:
-              readOnlyRootFilesystem: true
-              runAsUser: 65534
-              runAsGroup: 65534
-              allowPrivilegeEscalation: false
-            
             #securityContext:
-            #  readOnlyRootFilesystem: false  # Allow writing for initial setup
-            #  runAsUser: 0  # Run as root for initial setup
-            #  runAsGroup: 0  # Run as root group for initial setup
-            #  allowPrivilegeEscalation: true  # Allow privilege escalation for initial setup
+            #  readOnlyRootFilesystem: true
+            #  runAsUser: 65534
+            #  runAsGroup: 65534
+            #  allowPrivilegeEscalation: false
+            
+            securityContext:
+              readOnlyRootFilesystem: false  # Allow writing for initial setup
+              runAsUser: 0  # Run as root for initial setup
+              runAsGroup: 0  # Run as root group for initial setup
+              allowPrivilegeEscalation: true  # Allow privilege escalation for initial setup
           unbound:
             image:
               repository: ghcr.io/gabe565/unbound-cache
