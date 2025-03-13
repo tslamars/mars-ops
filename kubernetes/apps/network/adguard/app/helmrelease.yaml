@@ -1,0 +1,110 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app adguard-home
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.7.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  maxHistory: 2
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+      strategy: rollback
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      adguard:
+        containers:
+          app:
+            image:
+              repository: adguard/adguardhome
+              tag: v0.107.57@sha256:5c536c1e25f76693ae7ee5e64e8a029893e0f3f1778c8d2a9581383e60cfa9b9
+              pullPolicy: IfNotPresent
+            env:
+              TZ: America/New_York
+            probes:
+              liveness: &probe
+                type: HTTP
+                path: /login.html
+              readiness: *probe
+              startup: *probe
+
+    service:
+      app:
+        nameOverride: *app
+        controller: adguard
+        ports:
+          http:
+            port: 80
+      dns:
+        controller: adguard
+        type: LoadBalancer
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: dns.${SECRET_DOMAIN}
+          io.cilium/lb-ipam-ips: 10.10.5.250
+        ports:
+          dns-https:
+            port: 443
+            protocol: TCP
+          dns-tcp:
+            port: 53
+            protocol: TCP
+          dns-udp:
+            port: 53
+            protocol: UDP
+          tls-tcp:
+            port: 853
+            protocol: TCP
+
+    ingress:
+      main:
+        enabled: true
+        className: internal
+        hosts:
+          - host: &host "adguard.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      config:
+        enabled: true
+        existingClaim: adguard
+        globalMounts:
+          - path: /opt/adguardhome/conf
+            subPath: conf
+      work:
+        enabled: true
+        storageClass: longhorn
+        accessMode: ReadWriteOnce
+        size: 5Gi
+        globalMounts:
+          - path: /opt/adguardhome/work
+            subPath: work
+      tls:
+        enabled: false
+        #enabled: true
+        type: secret
+        name: tls-adguard
+        globalMounts:
+          - path: /opt/adguardhome/ssl/certs/
+            readOnly: true
