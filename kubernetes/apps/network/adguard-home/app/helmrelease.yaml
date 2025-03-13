@@ -45,10 +45,10 @@ spec:
                   failureThreshold: 30
                   periodSeconds: 5
             securityContext:
-              readOnlyRootFilesystem: true
-              runAsUser: 65534
-              runAsGroup: 65534
-              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false  # Allow writing for initial setup
+              runAsUser: 0  # Run as root for initial setup
+              runAsGroup: 0  # Run as root group for initial setup
+              allowPrivilegeEscalation: true  # Allow privilege escalation for initial setup
           unbound:
             image:
               repository: ghcr.io/gabe565/unbound-cache
@@ -75,6 +75,7 @@ spec:
           securityContext:
             fsGroup: 65534
             fsGroupChangePolicy: OnRootMismatch
+            runAsNonRoot: false  # Allow the pod to run as root for initial setup
           affinity:
             podAntiAffinity:
               preferredDuringSchedulingIgnoredDuringExecution:
@@ -226,7 +227,7 @@ spec:
       app: &ingress
         className: internal
         annotations:
-          external-dns.alpha.kubernetes.io/target: "internal.${SECRET_DOMAIN}"  # Hardcode for now
+          external-dns.alpha.kubernetes.io/target: "internal.${SECRET_DOMAIN}"
         hosts:
           - host: "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
