@@ -108,136 +108,11 @@ spec:
               tag: alpine-v0.7.1@sha256:4409e1301375647bf177934c8441d79566d2c2557f0e0fa06a28fc6daeea65d4
               pullPolicy: IfNotPresent
             args: [run]
-            You’re correct! Instead of using postBuild.substituteFrom to inject the environment variables into the helmrelease.yaml via Helm templating ({{ .SYNC_USERNAME }}), you can directly reference the adguard-home-secret Secret created by the ExternalSecret using the env block with valueFrom.secretKeyRef. This approach is more idiomatic for Kubernetes and avoids issues with YAML parsing during substitution, which caused the previous error (post build failed for 'adguard-home': yaml: invalid map key).
-
-Let’s update your helmrelease.yaml to use secretKeyRef for the environment variables (app_url, sync_username, sync_password, secret_domain) in the env section of the sync controller, and we’ll also adjust the ingress section to avoid using {{ .SECRET_DOMAIN }}.
-
-Step 1: Update helmrelease.yaml to Use secretKeyRef
-We’ll modify the env section of the sync controller to reference the adguard-home-secret Secret directly, and we’ll adjust the ingress section to either hardcode SECRET_DOMAIN (if it’s not critical) or handle it differently (e.g., via a separate substitution or annotation).
-
-Updated helmrelease.yaml
-yaml
-
-Collapse
-
-Wrap
-
-Copy
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.7.2/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
-apiVersion: helm.toolkit.fluxcd.io/v2
-kind: HelmRelease
-metadata:
-  name: adguard-home
-  namespace: network
-spec:
-  chart:
-    spec:
-      chart: app-template
-      version: 3.7.2
-      reconcileStrategy: ChartVersion
-      sourceRef:
-        kind: HelmRepository
-        namespace: flux-system
-        name: bjw-s
-  interval: 1h
-  driftDetection:
-    mode: enabled
-  values:
-    controllers:
-      adguard-home:
-        type: statefulset
-        replicas: 2
-        annotations:
-          configmap.reloader.stakater.com/reload: unbound
-        containers:
-          app:
-            image:
-              repository: adguard/adguardhome
-              tag: v0.107.57@sha256:5c536c1e25f76693ae7ee5e64e8a029893e0f3f1778c8d2a9581383e60cfa9b9
-              pullPolicy: IfNotPresent
-            env:
-              TZ: America/New_York
-            probes:
-              liveness: &probe
-                enabled: true
-                type: HTTP
-                port: 3000
-                path: /login.html
-              readiness: *probe
-              startup:
-                <<: *probe
-                spec:
-                  failureThreshold: 30
-                  periodSeconds: 5
-            securityContext:
-              readOnlyRootFilesystem: true
-              runAsUser: 65534
-              runAsGroup: 65534
-              allowPrivilegeEscalation: false
-          unbound:
-            image:
-              repository: ghcr.io/gabe565/unbound-cache
-              tag: beta
-              pullPolicy: Always
-            env:
-              TZ: America/New_York
-            probes:
-              liveness: &probe
-                enabled: true
-                type: TCP
-                port: 5353
-              readiness: *probe
-              startup:
-                <<: *probe
-                spec:
-                  failureThreshold: 30
-                  periodSeconds: 5
-            securityContext:
-              readOnlyRootFilesystem: true
-              allowPrivilegeEscalation: false
-        pod:
-          priorityClassName: system-cluster-critical
-          securityContext:
-            fsGroup: 65534
-            fsGroupChangePolicy: OnRootMismatch
-          affinity:
-            podAntiAffinity:
-              preferredDuringSchedulingIgnoredDuringExecution:
-                - weight: 1
-                  podAffinityTerm:
-                    topologyKey: kubernetes.io/hostname
-                    labelSelector:
-                      matchLabels:
-                        app.kubernetes.io/name: adguard-home
-                        app.kubernetes.io/component: adguard-home
-        statefulset:
-          volumeClaimTemplates:
-            - name: data
-              storageClass: longhorn
-              accessMode: ReadWriteOnce
-              size: 2Gi
-              advancedMounts:
-                app:
-                  - path: /opt/adguardhome/conf
-                    subPath: conf
-                  - path: /opt/adguardhome/work
-                    subPath: work
-                unbound:
-                  - path: /opt/unbound/data
-                    subPath: unbound
-      sync:
-        containers:
-          app:
-            image:
-              repository: ghcr.io/bakito/adguardhome-sync
-              tag: alpine-v0.7.1@sha256:4409e1301375647bf177934c8441d79566d2c2557f0e0fa06a28fc6daeea65d4
-              pullPolicy: IfNotPresent
-            args: [run]
             env:
               - name: ORIGIN_URL
                 value: http://adguard-home-origin:3000
               - name: ORIGIN_WEB_URL
-                value: https://adguard-home.${SECRET_DOMAIN}  # Hardcode or fetch via a different method
+                value: https://adguard-home.${SECRET_DOMAIN}
               - name: ORIGIN_USERNAME
                 valueFrom:
                   secretKeyRef:
@@ -251,7 +126,7 @@ spec:
               - name: REPLICA_URL
                 value: http://adguard-home-replica:3000
               - name: REPLICA_WEB_URL
-                value: https://replica.${SECRET_DOMAIN}  # Hardcode or fetch via a different method
+                value: https://replica.${SECRET_DOMAIN}
               - name: REPLICA_USERNAME
                 valueFrom:
                   secretKeyRef:
@@ -266,9 +141,6 @@ spec:
                 value: "true"
               - name: CRON
                 value: "*/10 * * * *"
-            envFrom:
-              - secretRef:
-                  name: adguard-home-secret
             securityContext:
               readOnlyRootFilesystem: true
               allowPrivilegeEscalation: false
@@ -318,7 +190,16 @@ spec:
         <<: *origin-dns
         extraSelectorLabels:
           apps.kubernetes.io/pod-index: "1"
+        type: LoadBalancer
+        externalTrafficPolicy: Local
         loadBalancerIP: 10.10.5.253
+        ports:
+          dns-tcp:
+            port: 53
+            protocol: TCP
+          dns-udp:
+            port: 53
+            protocol: UDP
 
     persistence:
       unbound:
@@ -342,10 +223,10 @@ spec:
                 subPath: var
 
     ingress:
-      app: &ingress  # Define the anchor here
+      app: &ingress
         className: internal
         annotations:
-          external-dns.alpha.kubernetes.io/target: "internal.${SECRET_DOMAIN}"
+          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"  # Hardcode for now
         hosts:
           - host: "{{ .Release.Name }}.${SECRET_DOMAIN}"
             paths:
@@ -353,13 +234,8 @@ spec:
                 service:
                   identifier: adguard-home
                   port: http
-        #tls:
-        #  - secretName: ${certificate_name}
-        #    hosts:
-        #      - ${app_url}
-        #      - replica.${app_url}
       replica:
-        <<: *ingress  # Reference the anchor
+        <<: *ingress
         hosts:
           - host: replica.${SECRET_DOMAIN}
             paths:
