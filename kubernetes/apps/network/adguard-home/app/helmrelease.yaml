@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.7.2/charts/other/app-template.schemas/helmrelease-helm-v2.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.7.2/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -49,12 +49,10 @@ spec:
                   failureThreshold: 30
                   periodSeconds: 5
             securityContext:
-              readOnlyRootFilesystem: true
-              runAsUser: 65534
-              runAsGroup: 65534
-              allowPrivilegeEscalation: false
-              capabilities:
-                add: ["NET_BIND_SERVICE"]
+              readOnlyRootFilesystem: false  # Allow writing for initial setup
+              runAsUser: 0  # Run as root for initial setup
+              runAsGroup: 0  # Run as root group for initial setup
+              allowPrivilegeEscalation: true  # Allow privilege escalation for initial setup
           unbound:
             image:
               repository: ghcr.io/gabe565/unbound-cache
@@ -80,7 +78,8 @@ spec:
           priorityClassName: system-cluster-critical
           securityContext:
             fsGroup: 65534
-            fsGroupChangePolicy: OnRootMismatch          
+            fsGroupChangePolicy: OnRootMismatch
+            runAsNonRoot: false  # Allow the pod to run as root for initial setup
           affinity:
             podAntiAffinity:
               preferredDuringSchedulingIgnoredDuringExecution:
