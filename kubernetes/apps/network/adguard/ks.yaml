@@ -8,9 +8,10 @@ metadata:
 spec:
   targetNamespace: network
   dependsOn:
-    - name: external-secrets
-    - name: cert-manager
+    - name: onepassword
+      namespace: external-secrets
     - name: longhorn
+      namespace: flux-system
   path: ./kubernetes/apps/network/adguard/app
   prune: true
   sourceRef:
