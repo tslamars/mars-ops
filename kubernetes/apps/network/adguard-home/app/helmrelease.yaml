@@ -24,30 +24,16 @@ spec:
         replicas: 2
         annotations:
           configmap.reloader.stakater.com/reload: unbound
-        initContainers:
-          set-permissions:
-            image:
-              repository: busybox
-              tag: "1.36"
-              pullPolicy: IfNotPresent
-            command:
-              - sh
-              - -c
-              - |
-                echo "Setting permissions on /opt/adguardhome/work..."
-                chmod 700 /opt/adguardhome/work
-                chown 65534:65534 /opt/adguardhome/work
-                ls -ld /opt/adguardhome/work
-            securityContext:
-              runAsUser: 0  # Run as root to ensure permission changes
-              runAsGroup: 0
-              allowPrivilegeEscalation: true
         containers:
           app:
             image:
               repository: adguard/adguardhome
               tag: v0.107.57@sha256:5c536c1e25f76693ae7ee5e64e8a029893e0f3f1778c8d2a9581383e60cfa9b9
               pullPolicy: IfNotPresent
+            lifecycle:
+              postStart:
+                exec:
+                  command: ["/bin/sh", "-c", "chmod 700 /opt/adguardhome/work"]
             env:
               TZ: America/New_York
             probes:
