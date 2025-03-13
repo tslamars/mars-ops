@@ -79,9 +79,8 @@ spec:
         pod:
           priorityClassName: system-cluster-critical
           securityContext:
-            fsGroup: 65534  # Match the app container's user/group
-            fsGroupChangePolicy: Always  # Force fsGroup to apply ownership
-            runAsNonRoot: true
+            fsGroup: 65534
+            fsGroupChangePolicy: OnRootMismatch          
           affinity:
             podAntiAffinity:
               preferredDuringSchedulingIgnoredDuringExecution:
