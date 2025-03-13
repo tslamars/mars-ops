@@ -116,12 +116,12 @@ spec:
               - name: ORIGIN_USERNAME
                 valueFrom:
                   secretKeyRef:
-                    name: adguard-home-secret
+                    name: &secret adguard-home-secret
                     key: SYNC_USERNAME
               - name: ORIGIN_PASSWORD
                 valueFrom:
                   secretKeyRef:
-                    name: adguard-home-secret
+                    name: &secret adguard-home-secret
                     key: SYNC_PASSWORD
               - name: REPLICA_URL
                 value: http://adguard-home-replica:3000
@@ -130,12 +130,12 @@ spec:
               - name: REPLICA_USERNAME
                 valueFrom:
                   secretKeyRef:
-                    name: adguard-home-secret
+                    name: &secret adguard-home-secret
                     key: SYNC_USERNAME
               - name: REPLICA_PASSWORD
                 valueFrom:
                   secretKeyRef:
-                    name: adguard-home-secret
+                    name: &secret adguard-home-secret
                     key: SYNC_PASSWORD
               - name: REPLICA_AUTO_SETUP
                 value: "true"
