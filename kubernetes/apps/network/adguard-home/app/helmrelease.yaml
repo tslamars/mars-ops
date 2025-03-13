@@ -25,7 +25,7 @@ spec:
         annotations:
           configmap.reloader.stakater.com/reload: unbound
         initContainers:
-          - name: set-permissions
+          set-permissions:  # Changed from array to object syntax
             image: busybox:1.36
             command: ["sh", "-c", "chmod 700 /opt/adguardhome/work"]
             volumeMounts:
