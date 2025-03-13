@@ -13,8 +13,10 @@ spec:
   path: ./kubernetes/apps/database/cloudnative-pg/app
   prune: true
   dependsOn:
-    - name: external-secrets
+    - name: onepassword
+      namespace: external-secrets
     - name: openebs
+      namespace: openebs-system
   sourceRef:
     kind: GitRepository
     name: flux-system
