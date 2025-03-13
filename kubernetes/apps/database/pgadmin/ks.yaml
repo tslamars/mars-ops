@@ -17,8 +17,10 @@ spec:
     name: flux-system
     namespace: flux-system
   dependsOn:
+    - name: onepassword
+      namespace: external-secrets
     - name: longhorn
-    - name: external-secrets
+      namespace: flux-system
 #    - name: volsync
   wait: false
   interval: 30m
