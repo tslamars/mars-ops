@@ -24,20 +24,6 @@ spec:
         replicas: 2
         annotations:
           configmap.reloader.stakater.com/reload: unbound
-        initContainers:
-          set-permissions:
-            image:
-              repository: busybox
-              tag: "1.36"
-              pullPolicy: IfNotPresent
-            command:
-              - sh
-              - -c
-              - chmod 700 /opt/adguardhome/work
-            securityContext:
-              runAsUser: 0  # Run as root to ensure permission changes can be made
-              runAsGroup: 0
-              allowPrivilegeEscalation: true
         containers:
           app:
             image:
@@ -59,12 +45,12 @@ spec:
                   failureThreshold: 30
                   periodSeconds: 5
             securityContext:
-              readOnlyRootFilesystem: true  # Reverted to secure setting
-              runAsUser: 65534  # Reverted to non-root user (nobody)
-              runAsGroup: 65534  # Reverted to non-root group
-              allowPrivilegeEscalation: false  # Reverted to secure setting
+              readOnlyRootFilesystem: true
+              runAsUser: 65534
+              runAsGroup: 65534
+              allowPrivilegeEscalation: false
               capabilities:
-                add: ["NET_BIND_SERVICE"]  # Added to allow binding to port 53 as non-root
+                add: ["NET_BIND_SERVICE"]
           unbound:
             image:
               repository: ghcr.io/gabe565/unbound-cache
@@ -89,9 +75,21 @@ spec:
         pod:
           priorityClassName: system-cluster-critical
           securityContext:
-            fsGroup: 65534  # Reverted to match the non-root user
+            fsGroup: 65534
             fsGroupChangePolicy: OnRootMismatch
-            runAsNonRoot: true  # Reverted to enforce non-root
+            runAsNonRoot: true
+          initContainers:
+            - name: set-permissions
+              image: busybox:1.36
+              command: ["sh", "-c", "chmod 700 /opt/adguardhome/work && chown 65534:65534 /opt/adguardhome/work"]
+              securityContext:
+                runAsUser: 0
+                runAsGroup: 0
+                allowPrivilegeEscalation: true
+              volumeMounts:
+                - name: data
+                  mountPath: /opt/adguardhome/work
+                  subPath: work
           affinity:
             podAntiAffinity:
               preferredDuringSchedulingIgnoredDuringExecution:
@@ -117,10 +115,6 @@ spec:
                 unbound:
                   - path: /opt/unbound/data
                     subPath: unbound
-        extraVolumeMounts:
-          - name: data
-            mountPath: /opt/adguardhome/work
-            subPath: work
       sync:
         containers:
           app:
