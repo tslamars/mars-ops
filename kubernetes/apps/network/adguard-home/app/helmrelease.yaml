@@ -112,7 +112,7 @@ spec:
               - name: ORIGIN_URL
                 value: http://adguard-home-origin:3000
               - name: ORIGIN_WEB_URL
-                value: https://adguard-home.tslamars.com
+                value: https://adguard-home.${SECRET_DOMAIN}
               - name: ORIGIN_USERNAME
                 valueFrom:
                   secretKeyRef:
@@ -126,7 +126,7 @@ spec:
               - name: REPLICA_URL
                 value: http://adguard-home-replica:3000
               - name: REPLICA_WEB_URL
-                value: https://replica.tslamars.com
+                value: https://replica.${SECRET_DOMAIN}
               - name: REPLICA_USERNAME
                 valueFrom:
                   secretKeyRef:
