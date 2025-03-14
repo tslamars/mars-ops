@@ -21,14 +21,14 @@ cniConfig:
 nodes:
   - hostname: "talos-marsmaster-00"
     ipAddress: "10.10.5.170"
-    installDisk: "/dev/sda"
+    installDisk: "/dev/nvme0n1"
     machineSpec:
       secureboot: false
-    talosImageURL: factory.talos.dev/installer/88d1f7a5c4f1d3aba7df787c448c1d3d008ed29cfb34af53fa0df4336a56040b
+    talosImageURL: factory.talos.dev/installer/de3b865124c5616da8084826167f8c0b0fbc9b905b146290db797024e84097fc
     controlPlane: true
     networkInterfaces:
       - deviceSelector:
-          hardwareAddr: "5a:ca:86:f5:81:a8"
+          hardwareAddr: "84:47:09:47:3c:a2"
         dhcp: false
         addresses:
           - "10.10.5.170/21"
@@ -40,14 +40,14 @@ nodes:
           ip: "10.10.5.200"
   - hostname: "talos-marsmaster-01"
     ipAddress: "10.10.5.171"
-    installDisk: "/dev/sda"
+    installDisk: "/dev/sdb"
     machineSpec:
       secureboot: false
-    talosImageURL: factory.talos.dev/installer/88d1f7a5c4f1d3aba7df787c448c1d3d008ed29cfb34af53fa0df4336a56040b
+    talosImageURL: factory.talos.dev/installer/de3b865124c5616da8084826167f8c0b0fbc9b905b146290db797024e84097fc
     controlPlane: true
     networkInterfaces:
       - deviceSelector:
-          hardwareAddr: "4a:04:d5:30:5e:3a"
+          hardwareAddr: "54:bf:64:8e:7c:5d"
         dhcp: false
         addresses:
           - "10.10.5.171/21"
@@ -57,76 +57,6 @@ nodes:
         mtu: 1500
         vip:
           ip: "10.10.5.200"
-  - hostname: "talos-marsmaster-02"
-    ipAddress: "10.10.5.172"
-    installDisk: "/dev/sda"
-    machineSpec:
-      secureboot: false
-    talosImageURL: factory.talos.dev/installer/88d1f7a5c4f1d3aba7df787c448c1d3d008ed29cfb34af53fa0df4336a56040b
-    controlPlane: true
-    networkInterfaces:
-      - deviceSelector:
-          hardwareAddr: "ce:f7:71:e0:57:95"
-        dhcp: false
-        addresses:
-          - "10.10.5.172/21"
-        routes:
-          - network: "0.0.0.0/0"
-            gateway: "10.10.0.1"
-        mtu: 1500
-        vip:
-          ip: "10.10.5.200"
-  - hostname: "talos-marsworker-00"
-    ipAddress: "10.10.5.180"
-    installDisk: "/dev/sda"
-    machineSpec:
-      secureboot: false
-    talosImageURL: factory.talos.dev/installer/88d1f7a5c4f1d3aba7df787c448c1d3d008ed29cfb34af53fa0df4336a56040b
-    controlPlane: false
-    networkInterfaces:
-      - deviceSelector:
-          hardwareAddr: "b6:7a:03:a2:10:0a"
-        dhcp: false
-        addresses:
-          - "10.10.5.180/21"
-        routes:
-          - network: "0.0.0.0/0"
-            gateway: "10.10.0.1"
-        mtu: 1500
-  - hostname: "talos-marsworker-01"
-    ipAddress: "10.10.5.181"
-    installDisk: "/dev/sda"
-    machineSpec:
-      secureboot: false
-    talosImageURL: factory.talos.dev/installer/88d1f7a5c4f1d3aba7df787c448c1d3d008ed29cfb34af53fa0df4336a56040b
-    controlPlane: false
-    networkInterfaces:
-      - deviceSelector:
-          hardwareAddr: "52:03:9f:eb:7e:5c"
-        dhcp: false
-        addresses:
-          - "10.10.5.181/21"
-        routes:
-          - network: "0.0.0.0/0"
-            gateway: "10.10.0.1"
-        mtu: 1500
-  - hostname: "talos-marsworker-02"
-    ipAddress: "10.10.5.182"
-    installDisk: "/dev/sda"
-    machineSpec:
-      secureboot: false
-    talosImageURL: factory.talos.dev/installer/88d1f7a5c4f1d3aba7df787c448c1d3d008ed29cfb34af53fa0df4336a56040b
-    controlPlane: false
-    networkInterfaces:
-      - deviceSelector:
-          hardwareAddr: "7a:3d:87:ff:29:36"
-        dhcp: false
-        addresses:
-          - "10.10.5.182/21"
-        routes:
-          - network: "0.0.0.0/0"
-            gateway: "10.10.0.1"
-        mtu: 1500
 
 # Global patches
 patches:
