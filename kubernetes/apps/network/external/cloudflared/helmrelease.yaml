@@ -35,7 +35,7 @@ spec:
               TUNNEL_ORIGIN_ENABLE_HTTP2: true
               TUNNEL_TRANSPORT_PROTOCOL: quic
               TUNNEL_POST_QUANTUM: true
-              TUNNEL_ID: "629f382e-773f-4715-8042-2340e2439f82"
+              TUNNEL_ID: "e945bf14-532c-410c-ba45-8a4043260db1"
             args:
               - tunnel
               - --config
