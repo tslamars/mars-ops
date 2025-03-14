@@ -90,12 +90,12 @@ spec:
         useAllNodes: true
         useAllDevices: false
         nodes:
-          - name: "talos-marsmaster-01"  # Replace with your first node's name or IP
+          - name: "talos-marsmaster-00"  # Replace with your first node's name or IP
             devices:
-              - name: "/dev/disk/by-id/nvme0n1"
-          - name: "talos-marsmaster-02"  # Replace with your second node's name or IP
+              - name: "/dev/disk/by-id/nvme-ZETTASTONE_CP200_1024GB_ZSP02OV1TCB824344536"
+          - name: "talos-marsmaster-01"  # Replace with your second node's name or IP
             devices:
-              - name: "/dev/disk/by-id/sdb"
+              - name: "/dev/disk/by-id/ata-Samsung_SSD_860_EVO_1TB_S3Z8NB0K512778K"
         config:
           osdsPerDevice: "1"
       placement:
