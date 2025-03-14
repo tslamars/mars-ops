@@ -92,10 +92,10 @@ spec:
         nodes:
           - name: "talos-marsmaster-01"  # Replace with your first node's name or IP
             devices:
-              - name: "/dev/disk/by-id/nvme"
+              - name: "/dev/disk/by-id/nvme0n1"
           - name: "talos-marsmaster-02"  # Replace with your second node's name or IP
             devices:
-              - name: "/dev/disk/by-id/nvme"
+              - name: "/dev/disk/by-id/sdb"
         config:
           osdsPerDevice: "1"
       placement:
@@ -222,7 +222,7 @@ spec:
           enabled: true
           ingressClassName: internal
           host:
-            name: &host rook.${SECRET_DOMAIN}
+            name: &host rgw.${SECRET_DOMAIN}
             path: /
           tls:
             - hosts:
