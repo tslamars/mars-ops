@@ -3,11 +3,11 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: tslamars-com-staging
+  name: tslamars-com-production
 spec:
-  secretName: tslamars-com-staging-tls
+  secretName: tslamars-com-production-tls
   issuerRef:
-    name: letsencrypt-staging
+    name: letsencrypt-production
     kind: ClusterIssuer
   commonName: tslamars.com
   dnsNames: ["tslamars.com", "*.tslamars.com"]
